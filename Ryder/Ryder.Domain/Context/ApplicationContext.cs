@@ -60,11 +60,8 @@ namespace Ryder.Domain.Context
             }
 
             modelBuilder.Entity<Card>().HasIndex(x => x.AppUserId);
-
             modelBuilder.Entity<Message>().HasIndex(x => x.MessageThreadId);
-
             modelBuilder.Entity<Message>().HasIndex(x => x.SenderId);
-
             modelBuilder.Entity<MessageThread>().HasIndex(x => x.PinnedMessageId);
             modelBuilder.Entity<MessageThread>().HasIndex(x => x.LastMessageId);
             modelBuilder.Entity<MessageThreadParticipant>().HasOne(x => x.MessageThread);
