@@ -15,4 +15,12 @@
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="User\Command\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ryder.Infrastructure\Ryder.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

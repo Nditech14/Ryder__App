@@ -1,6 +1,7 @@
 ﻿using AspNetCoreHero.Results;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Ryder.Infrastructure.Common;
@@ -11,10 +12,13 @@ using ValidationException = Ryder.Infrastructure.Common.Exceptions.ValidationExc
 
 namespace Ryder.Api.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [Route("api/v1/[Controller]")]
+    [ApiController]
     public class ApiController : Controller
     {
-        private IMediator? _mediator;
-        protected IMediator? Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
+        private IMediator _mediator;
+        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
 
         protected IActionResult BadRequestResponse(string message)
         {
