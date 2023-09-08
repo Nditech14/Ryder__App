@@ -1,12 +1,13 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using AspNetCoreHero.Results;
+﻿using AspNetCoreHero.Results;
 using FluentValidation;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Ryder.Infrastructure.Common;
 using Ryder.Infrastructure.Common.Exceptions;
 using Serilog;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Net;
+using ValidationException = Ryder.Infrastructure.Common.Exceptions.ValidationException;
 
 namespace Ryder.Api.Controllers
 {
