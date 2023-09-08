@@ -1,0 +1,83 @@
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using AspNetCoreHero.Results;
+using FluentValidation;
+using Ryder.Infrastructure.Common;
+using Ryder.Infrastructure.Common.Exceptions;
+using Serilog;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+
+namespace Ryder.Api.Controllers
+{
+    public class ApiController : Controller
+    {
+        private IMediator? _mediator;
+        protected IMediator? Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
+
+        protected IActionResult BadRequestResponse(string message)
+        {
+            return BadRequest(new Result<string> { Message = message });
+        }
+
+        protected IActionResult ForbiddenResponse(string message)
+        {
+            return BadRequest(new Result<string> { Message = message });
+        }
+
+        protected IActionResult ServerErrorResponse(string message)
+        {
+            return StatusCode((int)HttpStatusCode.InternalServerError, new Result<string> { Message = message });
+        }
+
+        protected async Task<IActionResult> Initiate<TOut>(Func<Task<IResult<TOut>>> action)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(GetErrorsAsList(ModelState));
+
+                var result = await action.Invoke();
+                if (result.Succeeded)
+                    return Ok(result);
+
+                return BadRequest(result);
+            }
+            catch (ArgumentException ex)
+            {
+                Log.Logger.Error(ex, ex.Message);
+                return BadRequestResponse(ex.Message);
+            }
+            catch (ValidationException ex)
+            {
+                Log.Logger.Error(ex, ex.Message);
+                return BadRequestResponse(string.Join('\n', ex.Errors));
+            }
+            catch (ForbiddenAccessException ex)
+            {
+                Log.Logger.Error(ex, ex.Message);
+                return ForbiddenResponse("Forbidden");
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Error(ex, ex.Message);
+                return ServerErrorResponse(Constants.InternalServerErrorMessage);
+            }
+        }
+
+        public static List<string> GetErrorsAsList(ModelStateDictionary? modelState)
+        {
+            if (modelState == null || !modelState.Values.Any())
+                return new List<string>();
+
+            IList<string> allErrors = modelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage)).ToList();
+
+            var err = allErrors.Where(error => !string.IsNullOrEmpty(error)).ToList();
+
+            if (err.Count == 0)
+                err = modelState.Values.SelectMany(v => v.Errors.Select(b => b.Exception.Message)).ToList();
+
+            return err;
+        }
+    }
+}
