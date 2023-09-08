@@ -1,4 +1,6 @@
 using Ryder.Api.Configurations;
+using Ryder.Application;
+using Ryder.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,8 @@ builder.Services.ConfigureSwagger();
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJwtAuthentication(builder.Configuration);
 builder.Services.AddDbContextAndConfigurations(builder.Environment, builder.Configuration);
+builder.Services.ApplicationDependencyInjection();
+builder.Services.InjectInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 

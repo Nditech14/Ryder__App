@@ -13,7 +13,7 @@ namespace Ryder.Infrastructure
     {
         public static void InjectInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<ITokenGeneratorService, ITokenGeneratorService>();
+            services.AddScoped<ITokenGeneratorService, TokenGeneratorService>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));

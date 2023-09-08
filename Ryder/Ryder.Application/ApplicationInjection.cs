@@ -12,7 +12,7 @@ namespace Ryder.Application
         {
             services.AddAutoMapper(typeof(AutoMapperInitializer));
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-            services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
         }
     }
 }
