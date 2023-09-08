@@ -10,7 +10,6 @@ namespace Ryder.Api.Configurations
     {
         public static void SetupSeriLog(this IServiceCollection services, IConfiguration config, IWebHostEnvironment environment)
         {
-            //var logger = config
             DocumentStore ravenStore = new()
             {
                 Urls = new string[] { config["RavenDBConfigurations:ConnectionURL"] },
@@ -32,7 +31,6 @@ namespace Ryder.Api.Configurations
                         restrictedToMinimumLevel: LogEventLevel.Information
                     )
                     .CreateLogger();
-                ILogger.
             }
 
             Log.Logger = new LoggerConfiguration()
