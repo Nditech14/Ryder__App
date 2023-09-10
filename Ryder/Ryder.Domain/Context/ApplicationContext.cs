@@ -68,6 +68,8 @@ namespace Ryder.Domain.Context
             modelBuilder.Entity<MessageThreadParticipant>().HasIndex(x => x.AppUserId);
             modelBuilder.Entity<Order>().HasOne(x => x.PickUpLocation);
             modelBuilder.Entity<Order>().HasOne(x => x.DropOffLocation);
+
+            modelBuilder.Entity<Order>().HasIndex(x => x.RiderId);
             modelBuilder.Entity<Payment>().HasIndex(x => x.OrderId);
             modelBuilder.Entity<Rider>().HasIndex(x => x.AppUserId);
 
