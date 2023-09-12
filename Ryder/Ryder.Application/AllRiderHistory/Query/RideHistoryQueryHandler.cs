@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Ryder.Domain.Context;
 using Ryder.Domain.Entities;
+using Ryder.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Ryder.Application.AllRiderHistory.Query
 {
-    public class RideHistoryQueryHandler : IRequestHandler<RideHistoryQuery, IResult<IList<Order>>>
+    public class RideHistoryQueryHandler : IRequestHandler<RideHistoryQuery, IResult<IList<GetOrderResponse>>>
     {
         private readonly ApplicationContext _context;
         private readonly IMapper _mapper;
@@ -22,19 +23,21 @@ namespace Ryder.Application.AllRiderHistory.Query
             _context = context;
             _mapper = mapper;
         }
-        public async Task <IResult<IList<Order>>> Handle(RideHistoryQuery request, CancellationToken cancellationToken)
+        public async Task <IResult<IList<GetOrderResponse>>> Handle(RideHistoryQuery request, CancellationToken cancellationToken)
         {
+            
             var rideHistory = await _context.Orders
-            .Where(r => r.RiderId == request.RiderId)
+            .Where(r => r.RiderId == request.RiderId).Include(l => l.PickUpLocation).Include(l => l.DropOffLocation)
             .ToListAsync();
 
             if (rideHistory == null || !rideHistory.Any())
             {
-                return await Result<List<Order>>.FailAsync();
+                return await Result<List<GetOrderResponse>>.FailAsync();
             }
 
-            var rideHistoryDTOs = _mapper.Map<Result<List<Order>>>(rideHistory);
-            return rideHistoryDTOs;
+            var rideHistoryDTOs = _mapper.Map<List<GetOrderResponse>>(rideHistory);
+
+            return Result<List<GetOrderResponse>>.Success(rideHistoryDTOs);
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ryder.Application.AllRiderHistory.Query
 {
-    public class RideHistoryQuery : IRequest<IResult<IList<Order>>>
+    public class RideHistoryQuery : IRequest<IResult<IList<GetOrderResponse>>>
     {
         public Guid RiderId { get; set; }
     }
