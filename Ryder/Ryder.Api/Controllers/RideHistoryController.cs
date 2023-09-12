@@ -10,7 +10,7 @@ namespace Ryder.Api.Controllers
     [ApiController]
     public class RideHistoryController : ApiController
     {
-        [AllowAnonymous]
+       
         [HttpGet("ride-history-by-id/{riderId}")]
         public async Task<IActionResult> GetRideHistoryById(Guid riderId)
         {
