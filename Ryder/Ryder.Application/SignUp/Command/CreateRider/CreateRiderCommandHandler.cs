@@ -52,7 +52,7 @@ namespace Ryder.Application.SignUp.Command.CreateRider
                 if (!createdRider.Succeeded) return Result.Fail();
                 var CreateRole = await _userManager.AddToRoleAsync(createRider, Policies.Rider);
                 if (!CreateRole.Succeeded) return Result.Fail();
-                await _context.AddAsync(riderDocumentation);
+                await _context.Riders.AddAsync(riderDocumentation);
                 transaction.Complete();
                 await _context.SaveChangesAsync(cancellationToken);
                 return Result.Success("Signup successful");
