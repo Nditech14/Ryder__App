@@ -30,7 +30,7 @@ namespace Ryder.Application.SignUp.Command.CreateUser
             RuleFor(x => x.LastName).NotEmpty().Matches("^[A-Z][a-zA-Z]*$").WithMessage("Invalid name Format");
             RuleFor(x => x.Email).NotEmpty().EmailAddress().WithMessage("Invalid Email address Format");
             RuleFor(x => x.PhoneNumber).NotEmpty().MaximumLength(11).WithMessage("Invalid Phone number");
-            RuleFor(x => x.Password).NotEmpty().MinimumLength(8).Matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])$").WithMessage("Invalid Password, must have 'ABCabcd723#$@'");
+            RuleFor(x => x.Password).NotEmpty().MinimumLength(8).WithMessage("Invalid Password, must have 'ABCabcd723#$@'");
         }
     }
 }
