@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Identity;
 using Ryder.Api.Configurations;
 using Ryder.Application;
+using Ryder.Domain.Entities;
+using Ryder.Domain.SeedData;
 using Ryder.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +21,14 @@ builder.Services.ApplicationDependencyInjection();
 builder.Services.InjectInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+
+    SeedData.Initialize(userManager);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
