@@ -8,6 +8,7 @@ using Ryder.Infrastructure.Common;
 using Ryder.Infrastructure.Common.Exceptions;
 using Serilog;
 using System.Net;
+using IResult = AspNetCoreHero.Results.IResult;
 using ValidationException = Ryder.Infrastructure.Common.Exceptions.ValidationException;
 
 namespace Ryder.Api.Controllers
@@ -36,6 +37,41 @@ namespace Ryder.Api.Controllers
         }
 
         protected async Task<IActionResult> Initiate<TOut>(Func<Task<IResult<TOut>>> action)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(GetErrorsAsList(ModelState));
+
+                var result = await action.Invoke();
+                if (result.Succeeded)
+                    return Ok(result);
+
+                return BadRequest(result);
+            }
+            catch (ArgumentException ex)
+            {
+                Log.Logger.Error(ex, ex.Message);
+                return BadRequestResponse(ex.Message);
+            }
+            catch (ValidationException ex)
+            {
+                Log.Logger.Error(ex, ex.Message);
+                return BadRequestResponse(string.Join('\n', ex.Errors));
+            }
+            catch (ForbiddenAccessException ex)
+            {
+                Log.Logger.Error(ex, ex.Message);
+                return ForbiddenResponse("Forbidden");
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Error(ex, ex.Message);
+                return ServerErrorResponse(Constants.InternalServerErrorMessage);
+            }
+        }
+
+        protected async Task<IActionResult> Initiate(Func<Task<IResult>> action)
         {
             try
             {
