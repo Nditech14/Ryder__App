@@ -2,7 +2,7 @@
 using MailKit.Net.Smtp;
 using Ryder.Infrastructure.Interface;
 using Ryder.Infrastructure.Common.Extensions;
-
+using Serilog;
 
 namespace Ryder.Infrastructure.Implementation
 {
@@ -40,8 +40,9 @@ namespace Ryder.Infrastructure.Implementation
 
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                Log.Logger.Error(ex, "An error occurred while sending an email.");
                 return false;
             }
         }

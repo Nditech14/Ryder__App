@@ -10,6 +10,7 @@ using Ryder.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Ryder.Application.User.Command.ForgetPassword;
 using System.Net;
+using Serilog;
 
 namespace Ryder.Application.User.Query.ForgetPassword
 {
@@ -52,16 +53,12 @@ namespace Ryder.Application.User.Query.ForgetPassword
                 if (!emailSent)
                     return Result<ForgetPasswordResponse>.Fail("Failed to send password reset email.");
 
-                var response = new ForgetPasswordResponse
-                {
-                    Email = request.Email
-                };
-
-                return Result<ForgetPasswordResponse>.Success(response, "Password reset email sent successfully.");
+                return Result<ForgetPasswordResponse>.Success("Password reset email sent successfully.");
             }
             catch (Exception ex)
             {
                 // Handle exceptions, log details, and return an appropriate error result.
+                Log.Logger.Error(ex, $"An error occurred: {ex.Message}");
                 return Result<ForgetPasswordResponse>.Fail($"An error occurred: {ex.Message}");
             }
         }

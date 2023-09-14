@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Ryder.Application.User.Command.ResetPassword;
 using Ryder.Domain.Entities;
 using Ryder.Infrastructure.Interface;
+using Serilog;
 using System;
 using System.Net;
 using System.Threading;
@@ -42,6 +43,7 @@ namespace Ryder.Application.User.Query.ResetPassword
                 var emailMessage = "Your password has been successfully reset.";
 
                 var emailSent = await _emailService.SendEmailAsync(request.Email, emailSubject, emailMessage);
+
                 if (!emailSent)
                     return Result<ResetPasswordResponse>.Fail("Failed to send password reset email.");
 
@@ -57,7 +59,8 @@ namespace Ryder.Application.User.Query.ResetPassword
             catch (Exception ex)
             {
                 // Handle exceptions, log details, and return an appropriate error result.
-                return Result<ResetPasswordResponse>.Fail($"An error occurred: {ex.Message}");
+                Log.Logger.Error(ex, $"An error occurred: {ex.Message}");
+                return Result<ResetPasswordResponse>.Fail("An error occurred while resetting the password.");
             }
         }
     }
