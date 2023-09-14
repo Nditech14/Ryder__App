@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ryder.Application.Order.Query.OrderProgress
+namespace Ryder.Application.order.Query.OrderProgress
 {
      public class OrderProgressResponse
     {

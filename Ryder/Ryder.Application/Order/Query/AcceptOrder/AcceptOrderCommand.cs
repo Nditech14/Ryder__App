@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging; // Import the logging library.
 
-namespace Ryder.Application.Order.Query.AcceptOrder
+namespace Ryder.Application.order.Query.AcceptOrder
 {
     public class AcceptOrderCommand : IRequest<IResult<AcceptOrderResponse>>
     {

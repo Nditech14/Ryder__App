@@ -1,7 +1,7 @@
 ﻿using AspNetCoreHero.Results;
 using FluentValidation;
 using MediatR;
-using Ryder.Application.Order.Query.OrderProgress;
+using Ryder.Application.order.Query.OrderProgress;
 using Ryder.Domain.Entities;
 using Ryder.Domain.Enums;
 using System;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging; // Import the logging library.
 
-namespace Ryder.Application.Order.Query.EndRide
+namespace Ryder.Application.order.Query.EndRide
 {
     public class EndRideCommand : IRequest<IResult<EndRideResponse>>
     {

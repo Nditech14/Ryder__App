@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging; // Import the logging library.
 
-namespace Ryder.Application.Order.Query.EndRide
+namespace Ryder.Application.order.Query.EndRide
 {
     public class EndRideCommandHandler : IRequestHandler<EndRideCommand, IResult<EndRideResponse>>
     {

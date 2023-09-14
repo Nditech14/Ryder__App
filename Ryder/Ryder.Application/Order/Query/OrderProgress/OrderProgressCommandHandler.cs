@@ -1,6 +1,6 @@
 ﻿using AspNetCoreHero.Results;
 using MediatR;
-using Ryder.Application.Order.Query.AcceptOrder;
+using Ryder.Application.order.Query.AcceptOrder;
 using Ryder.Domain.Context;
 using System;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging; // Import the logging library.
 
-namespace Ryder.Application.Order.Query.OrderProgress
+namespace Ryder.Application.order.Query.OrderProgress
 {
     public class OrderProgressCommandHandler : IRequestHandler<OrderProgressCommand, IResult<OrderProgressResponse>>
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ryder.Application.Order.Query.AcceptOrder;
-using Ryder.Application.Order.Query.EndRide;
-using Ryder.Application.Order.Query.OrderProgress;
+using Ryder.Application.order.Query.AcceptOrder;
+using Ryder.Application.order.Query.EndRide;
+using Ryder.Application.order.Query.OrderProgress;
 using Microsoft.Extensions.Logging; // Import the logging library.
 
 namespace Ryder.Api.Controllers
@@ -11,7 +11,7 @@ namespace Ryder.Api.Controllers
         private readonly ILogger<OrderController> _logger; // Inject the logger.
 
         public OrderController(ILogger<OrderController> logger)
-        {
+        { 
             _logger = logger;
 
             // Log an information message when the controller is initialized.

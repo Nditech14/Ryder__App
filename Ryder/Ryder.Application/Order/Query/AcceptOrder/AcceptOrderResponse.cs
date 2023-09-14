@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ryder.Application.Order.Query.AcceptOrder
+namespace Ryder.Application.order.Query.AcceptOrder
 {
     public  class AcceptOrderResponse
     { 

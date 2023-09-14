@@ -7,7 +7,7 @@ using AspNetCoreHero.Results;
 using Ryder.Domain.Context;
 using Microsoft.Extensions.Logging; // Import the logging library.
 
-namespace Ryder.Application.Order.Query.AcceptOrder
+namespace Ryder.Application.order.Query.AcceptOrder
 {
     public class AcceptOrderCommandHandler : IRequestHandler<AcceptOrderCommand, IResult<AcceptOrderResponse>>
     {

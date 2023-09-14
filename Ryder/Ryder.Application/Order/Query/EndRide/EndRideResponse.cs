@@ -2,7 +2,7 @@
 using Ryder.Domain.Enums;
 using System;
 
-namespace Ryder.Application.Order.Query.EndRide
+namespace Ryder.Application.order.Query.EndRide
 {
     public class EndRideResponse
     {
