@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Ryder.Application.AllRiderHistory.Query;
+using Ryder.Domain.Entities;
 
 namespace Ryder.Application.Common.Mapper
 {
@@ -6,6 +8,8 @@ namespace Ryder.Application.Common.Mapper
     {
         public AutoMapperInitializer()
         {
+            CreateMap<Address, Location>();
+            CreateMap<Order, GetOrderResponse>();
         }
     }
 }
