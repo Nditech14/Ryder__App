@@ -16,15 +16,15 @@ builder.Services.ConfigureJwtAuthentication(builder.Configuration);
 builder.Services.AddDbContextAndConfigurations(builder.Environment, builder.Configuration);
 builder.Services.ApplicationDependencyInjection();
 builder.Services.InjectInfrastructure(builder.Configuration);
+builder.Services.SetupSeriLog(builder.Configuration);
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 app.UseHttpsRedirection();
 
