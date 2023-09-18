@@ -28,8 +28,11 @@ builder.Services.AddDbContextAndConfigurations(builder.Environment, builder.Conf
 builder.Services.ApplicationDependencyInjection();
 builder.Services.InjectInfrastructure(builder.Configuration);
 
-
-
+// Add configuration settings from appsettings.json
+builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
+{
+    config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+});
 
 var app = builder.Build();
 
