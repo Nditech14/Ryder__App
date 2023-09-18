@@ -1,8 +1,19 @@
+using Microsoft.AspNetCore.Identity;
 using Ryder.Api.Configurations;
 using Ryder.Application;
+using Ryder.Domain.Entities;
+using Ryder.Domain.SeedData;
 using Ryder.Infrastructure;
+using Ryder.Infrastructure.Implementation;
+using Ryder.Infrastructure.Interface;
+using MediatR;
+using Ryder.Application.User.Query.ResendConfirmationEmail;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<IUserService, UserService>();
+
 
 // Add services to the container.
 
@@ -24,6 +35,14 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+
+    SeedData.Initialize(userManager);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
