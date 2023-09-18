@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Ryder.Application.User.Query.Login;
 using Ryder.Infrastructure.Common;
 using Ryder.Infrastructure.Common.Exceptions;
 using Serilog;
@@ -120,5 +121,7 @@ namespace Ryder.Api.Controllers
 
             return err;
         }
+
+       
     }
 }

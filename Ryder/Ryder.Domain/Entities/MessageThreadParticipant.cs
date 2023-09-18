@@ -1,4 +1,5 @@
-﻿using Ryder.Domain.Common;
+﻿
+using Ryder.Domain.Common;
 
 namespace Ryder.Domain.Entities
 {
