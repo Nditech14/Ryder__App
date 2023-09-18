@@ -1,5 +1,6 @@
 ﻿using AspNetCoreHero.Results;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Ryder.Application.RiderAvailability.Query;
 using Ryder.Domain.Context;
 using Ryder.Domain.Entities;
@@ -18,19 +19,26 @@ namespace Ryder.Application.Riders.Handlers
 
         public async Task<IResult<GetRiderAvailabilityResponse>> Handle(GetRiderAvailabilityQuery request, CancellationToken cancellationToken)
         {
-            var rider = await _Context.Riders.FindAsync(request.RiderId);
+            var rider = await _Context.Riders
+                .Where(r => r.Id == request.RiderId)
+                .FirstOrDefaultAsync(cancellationToken);
 
             if (rider == null)
             {
-                return await Result<GetRiderAvailabilityResponse>.FailAsync();
+                return await Result<GetRiderAvailabilityResponse>.FailAsync("Rider not found");
             }
-            var RiderAvailabilityStatus = new Rider
+
+            var response = new GetRiderAvailabilityResponse
             {
-                AvailabilityStatus = request.AvailabilityStatus
+                AppUserId = rider.Id,
+                AvailabilityStatus = rider.AvailabilityStatus
             };
 
-            return await Result<GetRiderAvailabilityResponse>.SuccessAsync();
-       
+            return await Result<GetRiderAvailabilityResponse>.SuccessAsync(response);
         }
     }
+
+
+
 } 
+

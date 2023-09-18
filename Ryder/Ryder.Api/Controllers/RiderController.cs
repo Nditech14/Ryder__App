@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ryder.Api.Controllers;
 using Ryder.Application.RiderAvailability.Command;
@@ -15,7 +16,8 @@ public class RidersController : ApiController
         _mediator = mediator;
     }
 
-    [HttpPost("update-availability/{id}")]
+    [AllowAnonymous]
+    [HttpPost("update-availability")]
     public async Task<IActionResult> UpdateRiderAvailability(Guid id, [FromBody] UpdateRiderAvailabilityCommand command)
     {
 
@@ -24,6 +26,7 @@ public class RidersController : ApiController
        
     }
 
+    [AllowAnonymous]
     [HttpGet("get-availability/{id}")]
     public async Task<IActionResult> GetRiderAvailability(Guid id)
     {
