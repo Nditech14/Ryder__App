@@ -22,41 +22,7 @@ namespace Ryder.Application.RiderAvailability.Command
         {
             _Context = Context;
         }
-        /*public async Task<IResult<RiderAvailabilityResponse>> Handle(UpdateRiderAvailabilityCommand request, CancellationToken cancellationToken)
-        {
-
-
-            var rider = await _Context.Riders.FindAsync(request.RiderId);
-
-            if (rider == null)
-            {
-                return await Result<RiderAvailabilityResponse>.FailAsync();
-            }
-
-            rider.AvailabilityStatus = request.AvailabilityStatus;
-
-            await _Context.SaveChangesAsync(cancellationToken);
-
-            return await Result<RiderAvailabilityResponse>.SuccessAsync();
-
-
-        }*/
-
-        /* public async Task<IResult<RiderAvailabilityResponse>> Handle(UpdateRiderAvailabilityCommand request, CancellationToken cancellationToken)
-         {
-             var rider = await _Context.Riders.FirstOrDefaultAsync(r => r.Id == request.RiderId);
-
-             if (rider == null)
-             {
-                 return await Result<RiderAvailabilityResponse>.FailAsync();
-             }
-
-             rider.AvailabilityStatus = request.AvailabilityStatus;
-
-             await _Context.SaveChangesAsync(cancellationToken);
-
-             return await Result<RiderAvailabilityResponse>.SuccessAsync();
-         }*/
+      
 
         public async Task<IResult<RiderAvailabilityResponse>> Handle(UpdateRiderAvailabilityCommand request, CancellationToken cancellationToken)
         {
@@ -95,10 +61,7 @@ namespace Ryder.Application.RiderAvailability.Command
             }
         }
 
-        /* public Task<IResult<RiderAvailabilityResponse>> Handle(UpdateRiderAvailabilityCommand request, CancellationToken cancellationToken)
-         {
-             throw new NotImplementedException();
-         }*/
+      
     }
 }
 
