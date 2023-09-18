@@ -15,12 +15,14 @@ namespace Ryder.Api.Configurations
                 if (env.IsDevelopment())
                 {
                     connStr = config.GetConnectionString("DefaultConnection");
-                    options.UseNpgsql(connStr);
+                   options.UseNpgsql(connStr);
+                    
                 }
                 else
                 {
                     connStr = config.GetConnectionString("DefaultConnection");
-                    options.UseNpgsql(connStr);
+                   options.UseNpgsql(connStr);
+                   
                 }
             });
         }
