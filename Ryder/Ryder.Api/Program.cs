@@ -4,8 +4,16 @@ using Ryder.Application;
 using Ryder.Domain.Entities;
 using Ryder.Domain.SeedData;
 using Ryder.Infrastructure;
+using Ryder.Infrastructure.Implementation;
+using Ryder.Infrastructure.Interface;
+using MediatR;
+using Ryder.Application.User.Query.ResendConfirmationEmail;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<IUserService, UserService>();
+
 
 // Add services to the container.
 
@@ -19,6 +27,9 @@ builder.Services.ConfigureJwtAuthentication(builder.Configuration);
 builder.Services.AddDbContextAndConfigurations(builder.Environment, builder.Configuration);
 builder.Services.ApplicationDependencyInjection();
 builder.Services.InjectInfrastructure(builder.Configuration);
+
+
+
 
 var app = builder.Build();
 
