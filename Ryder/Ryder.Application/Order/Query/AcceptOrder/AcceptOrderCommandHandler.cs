@@ -57,5 +57,7 @@ namespace Ryder.Application.order.Query.AcceptOrder
             // Handle the successful update
             return Result<AcceptOrderResponse>.Success($"Order with ID {request.OrderId} accepted.");
         }
+
+
     }
 }

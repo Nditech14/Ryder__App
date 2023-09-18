@@ -9,7 +9,7 @@ namespace Ryder.Application.Common.Mapper
         public AutoMapperInitializer()
         {
             CreateMap<Address, Location>();
-           // CreateMap<order, GetOrderResponse>();
+            CreateMap<Order, GetOrderResponse>();
         }
     }
 }
