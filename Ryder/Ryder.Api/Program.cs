@@ -37,12 +37,9 @@ builder.Services.InjectInfrastructure(builder.Configuration);
 builder.Services.SetupSeriLog(builder.Configuration);
 
 // Add configuration settings from appsettings.json
-builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
-{
-    config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-});
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
-Log.Logger.Information("App starting...");
 
 var app = builder.Build();
 
