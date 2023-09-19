@@ -9,8 +9,15 @@ using Ryder.Infrastructure.Interface;
 using MediatR;
 using Ryder.Application.User.Query.ResendConfirmationEmail;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
+using Serilog.Sinks.Redis;
+using static Org.BouncyCastle.Math.EC.ECCurve;
+using Ryder.Infrastructure.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContextAndConfigurations(builder.Environment, builder.Configuration);
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.AddScoped<IUserService, UserService>();
 
@@ -35,26 +42,25 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
     config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 });
 
+Log.Logger.Information("App starting...");
+
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var userManager = services.GetRequiredService<UserManager<AppUser>>();
-
-    SeedData.Initialize(userManager);
-}
 
 // Configure the HTTP request pipeline.
 
 app.UseSwagger();
 app.UseSwaggerUI();
+app.UseDeveloperExceptionPage();
 
+await Seeder.SeedData(app);
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+//app.UseSerilogRequestLogging();
 
 app.Run();
