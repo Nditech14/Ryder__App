@@ -193,7 +193,7 @@ namespace Ryder.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Address");
+                    b.ToTable("Address", (string)null);
                 });
 
             modelBuilder.Entity("Ryder.Domain.Entities.AppUser", b =>
@@ -326,7 +326,7 @@ namespace Ryder.Domain.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Cards");
+                    b.ToTable("Cards", (string)null);
                 });
 
             modelBuilder.Entity("Ryder.Domain.Entities.Message", b =>
@@ -360,7 +360,7 @@ namespace Ryder.Domain.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Messages", (string)null);
                 });
 
             modelBuilder.Entity("Ryder.Domain.Entities.MessageThread", b =>
@@ -394,7 +394,7 @@ namespace Ryder.Domain.Migrations
 
                     b.HasIndex("PinnedMessageId");
 
-                    b.ToTable("MessageThreads");
+                    b.ToTable("MessageThreads", (string)null);
                 });
 
             modelBuilder.Entity("Ryder.Domain.Entities.MessageThreadParticipant", b =>
@@ -436,7 +436,7 @@ namespace Ryder.Domain.Migrations
 
                     b.HasIndex("MessageThreadId");
 
-                    b.ToTable("MessageThreadParticipants");
+                    b.ToTable("MessageThreadParticipants", (string)null);
                 });
 
             modelBuilder.Entity("Ryder.Domain.Entities.Order", b =>
@@ -485,7 +485,7 @@ namespace Ryder.Domain.Migrations
 
                     b.HasIndex("RiderId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Ryder.Domain.Entities.Payment", b =>
@@ -523,7 +523,7 @@ namespace Ryder.Domain.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("Ryder.Domain.Entities.Rider", b =>
@@ -563,7 +563,7 @@ namespace Ryder.Domain.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Riders");
+                    b.ToTable("Riders", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

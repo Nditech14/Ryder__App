@@ -48,7 +48,6 @@ namespace Ryder.Domain.Context
             return await base.SaveChangesAsync(cancellationToken);
         }
 
-       
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -61,6 +60,13 @@ namespace Ryder.Domain.Context
             foreach (var property in modelBuilder.Model.GetEntityTypes()
                          .SelectMany(t => t.GetProperties())
                          .Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?)))
+            {
+                property.SetColumnType("decimal(18,2)");
+            }
+
+            foreach (var property in modelBuilder.Model.GetEntityTypes()
+                         .SelectMany(t => t.GetProperties())
+                         .Where(p => p.ClrType == typeof(double) || p.ClrType == typeof(double?)))
             {
                 property.SetColumnType("decimal(18,2)");
             }

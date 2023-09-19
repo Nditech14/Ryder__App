@@ -40,7 +40,7 @@ namespace Ryder.Infrastructure.Seed
                     .ServiceProvider.GetRequiredService<UserManager<AppUser>>();
 
                 var roleManager = app.ApplicationServices.CreateScope()
-                    .ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                    .ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
                 //Creating list of roles
 
                 List<string> roles = new() { Policies.Rider, Policies.Customer };
@@ -48,7 +48,7 @@ namespace Ryder.Infrastructure.Seed
                 //Creating roles
                 foreach (var role in roles)
                 {
-                    await roleManager.CreateAsync(new IdentityRole { Name = role });
+                    await roleManager.CreateAsync(new IdentityRole<Guid> { Name = role });
                 }
 
                 var randomNumber = new byte[32];
@@ -57,7 +57,7 @@ namespace Ryder.Infrastructure.Seed
                 var refreshToken = Convert.ToBase64String(randomNumber);
 
 
-                AppUser user = new AppUser
+                var user = new AppUser
                 {
                     Id = Guid.NewGuid(),
                     FirstName = "John",
@@ -67,14 +67,15 @@ namespace Ryder.Infrastructure.Seed
                     PhoneNumber = "00000000000",
                     PhoneNumberConfirmed = true,
                     EmailConfirmed = true,
+                    ProfilePictureUrl = "www.avartar.com/publicId",
                     Address = new Address
                     {
                         Id = Guid.NewGuid(),
                         City = "Warri",
                         State = "Delta",
                         PostCode = "+234",
-                        Longitude = 3,
-                        Latitude = 4,
+                        Longitude = "3",
+                        Latitude = "4",
                         Country = "Nigeria"
                     },
                     TwoFactorEnabled = false,

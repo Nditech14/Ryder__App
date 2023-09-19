@@ -1,17 +1,8 @@
-using Microsoft.AspNetCore.Identity;
 using Ryder.Api.Configurations;
 using Ryder.Application;
-using Ryder.Domain.Entities;
-using Ryder.Domain.SeedData;
 using Ryder.Infrastructure;
 using Ryder.Infrastructure.Implementation;
 using Ryder.Infrastructure.Interface;
-using MediatR;
-using Ryder.Application.User.Query.ResendConfirmationEmail;
-using Microsoft.Extensions.DependencyInjection;
-using Serilog;
-using Serilog.Sinks.Redis;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 using Ryder.Infrastructure.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -57,7 +48,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
-//app.UseSerilogRequestLogging();
 
 app.Run();
