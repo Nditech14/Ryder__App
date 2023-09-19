@@ -1,16 +1,14 @@
-using Microsoft.AspNetCore.Identity;
 using Ryder.Api.Configurations;
 using Ryder.Application;
-using Ryder.Domain.Entities;
-using Ryder.Domain.SeedData;
 using Ryder.Infrastructure;
 using Ryder.Infrastructure.Implementation;
 using Ryder.Infrastructure.Interface;
-using MediatR;
-using Ryder.Application.User.Query.ResendConfirmationEmail;
-using Microsoft.Extensions.DependencyInjection;
+using Ryder.Infrastructure.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContextAndConfigurations(builder.Environment, builder.Configuration);
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.AddScoped<IUserService, UserService>();
 
@@ -27,29 +25,23 @@ builder.Services.ConfigureJwtAuthentication(builder.Configuration);
 builder.Services.AddDbContextAndConfigurations(builder.Environment, builder.Configuration);
 builder.Services.ApplicationDependencyInjection();
 builder.Services.InjectInfrastructure(builder.Configuration);
+builder.Services.SetupSeriLog(builder.Configuration);
 
 // Add configuration settings from appsettings.json
-builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
-{
-    config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-});
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var userManager = services.GetRequiredService<UserManager<AppUser>>();
-
-    SeedData.Initialize(userManager);
-}
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
+app.UseDeveloperExceptionPage();
+
+await Seeder.SeedData(app);
 
 app.UseHttpsRedirection();
 

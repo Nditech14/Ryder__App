@@ -18,7 +18,7 @@ namespace Ryder.Application.Orders.Command.PlaceOrder
         public decimal Amount { get; set; }
         public Guid RiderId { get; set; }
     }
-    
+
     public class PlaceOrderAddressCommand
     {
         public string City { get; set; }
@@ -27,6 +27,5 @@ namespace Ryder.Application.Orders.Command.PlaceOrder
         public string Longitude { get; set; }
         public string Latitude { get; set; }
         public string Country { get; set; }
-
     }
 }
