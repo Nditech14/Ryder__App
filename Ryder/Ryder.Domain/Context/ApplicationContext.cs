@@ -22,6 +22,10 @@ namespace Ryder.Domain.Context
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Rider> Riders { get; set; }
 
+        public Task GetOrderByIdAsync(Guid orderId)
+        {
+            throw new NotImplementedException();
+        }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
@@ -44,6 +48,7 @@ namespace Ryder.Domain.Context
             return await base.SaveChangesAsync(cancellationToken);
         }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly(), (type) =>
@@ -59,6 +64,13 @@ namespace Ryder.Domain.Context
                 property.SetColumnType("decimal(18,2)");
             }
 
+            foreach (var property in modelBuilder.Model.GetEntityTypes()
+                         .SelectMany(t => t.GetProperties())
+                         .Where(p => p.ClrType == typeof(double) || p.ClrType == typeof(double?)))
+            {
+                property.SetColumnType("decimal(18,2)");
+            }
+
             modelBuilder.Entity<Card>().HasIndex(x => x.AppUserId);
             modelBuilder.Entity<Message>().HasIndex(x => x.MessageThreadId);
             modelBuilder.Entity<Message>().HasIndex(x => x.SenderId);
@@ -68,6 +80,8 @@ namespace Ryder.Domain.Context
             modelBuilder.Entity<MessageThreadParticipant>().HasIndex(x => x.AppUserId);
             modelBuilder.Entity<Order>().HasOne(x => x.PickUpLocation);
             modelBuilder.Entity<Order>().HasOne(x => x.DropOffLocation);
+
+            modelBuilder.Entity<Order>().HasIndex(x => x.RiderId);
             modelBuilder.Entity<Payment>().HasIndex(x => x.OrderId);
             modelBuilder.Entity<Rider>().HasIndex(x => x.AppUserId);
 

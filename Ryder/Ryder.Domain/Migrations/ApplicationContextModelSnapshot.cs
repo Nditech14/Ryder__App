@@ -193,7 +193,7 @@ namespace Ryder.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Address");
+                    b.ToTable("Address", (string)null);
                 });
 
             modelBuilder.Entity("Ryder.Domain.Entities.AppUser", b =>
@@ -253,6 +253,13 @@ namespace Ryder.Domain.Migrations
                     b.Property<string>("ProfilePictureUrl")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("RefreshToken")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("RefreshTokenExpiryTime")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
@@ -319,7 +326,7 @@ namespace Ryder.Domain.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Cards");
+                    b.ToTable("Cards", (string)null);
                 });
 
             modelBuilder.Entity("Ryder.Domain.Entities.Message", b =>
@@ -353,7 +360,7 @@ namespace Ryder.Domain.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Messages", (string)null);
                 });
 
             modelBuilder.Entity("Ryder.Domain.Entities.MessageThread", b =>
@@ -387,7 +394,7 @@ namespace Ryder.Domain.Migrations
 
                     b.HasIndex("PinnedMessageId");
 
-                    b.ToTable("MessageThreads");
+                    b.ToTable("MessageThreads", (string)null);
                 });
 
             modelBuilder.Entity("Ryder.Domain.Entities.MessageThreadParticipant", b =>
@@ -429,7 +436,7 @@ namespace Ryder.Domain.Migrations
 
                     b.HasIndex("MessageThreadId");
 
-                    b.ToTable("MessageThreadParticipants");
+                    b.ToTable("MessageThreadParticipants", (string)null);
                 });
 
             modelBuilder.Entity("Ryder.Domain.Entities.Order", b =>
@@ -461,6 +468,9 @@ namespace Ryder.Domain.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("RiderId")
+                        .HasColumnType("uuid");
+
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
@@ -473,7 +483,9 @@ namespace Ryder.Domain.Migrations
 
                     b.HasIndex("PickUpLocationId");
 
-                    b.ToTable("Orders");
+                    b.HasIndex("RiderId");
+
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Ryder.Domain.Entities.Payment", b =>
@@ -511,7 +523,7 @@ namespace Ryder.Domain.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("Ryder.Domain.Entities.Rider", b =>
@@ -522,6 +534,9 @@ namespace Ryder.Domain.Migrations
 
                     b.Property<Guid>("AppUserId")
                         .HasColumnType("uuid");
+
+                    b.Property<int>("AvailabilityStatus")
+                        .HasColumnType("integer");
 
                     b.Property<string>("BikeDocument")
                         .IsRequired()
@@ -548,7 +563,7 @@ namespace Ryder.Domain.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Riders");
+                    b.ToTable("Riders", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
