@@ -2,6 +2,7 @@ using Ryder.Api.Configurations;
 using Ryder.Application;
 using Ryder.Infrastructure;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,6 +17,7 @@ builder.Services.ConfigureJwtAuthentication(builder.Configuration);
 builder.Services.AddDbContextAndConfigurations(builder.Environment, builder.Configuration);
 builder.Services.ApplicationDependencyInjection();
 builder.Services.InjectInfrastructure(builder.Configuration);
+builder.Services.ConfigureSignalR(builder.Build());
 
 var app = builder.Build();
 
@@ -31,5 +33,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+
+
 
 app.Run();
