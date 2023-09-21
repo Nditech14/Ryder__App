@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ryder.Application.AllRiderHistory.Query
+namespace Ryder.Application.Rider.Query.AllRiderHistory
 {
     public class RideHistoryQueryHandler : IRequestHandler<RideHistoryQuery, IResult<IList<GetOrderResponse>>>
     {
@@ -23,12 +23,13 @@ namespace Ryder.Application.AllRiderHistory.Query
             _context = context;
             _mapper = mapper;
         }
-        public async Task <IResult<IList<GetOrderResponse>>> Handle(RideHistoryQuery request, CancellationToken cancellationToken)
+
+        public async Task<IResult<IList<GetOrderResponse>>> Handle(RideHistoryQuery request,
+            CancellationToken cancellationToken)
         {
-            
             var rideHistory = await _context.Orders
-            .Where(r => r.RiderId == request.RiderId).Include(l => l.PickUpLocation).Include(l => l.DropOffLocation)
-            .ToListAsync();
+                .Where(r => r.RiderId == request.RiderId).Include(l => l.PickUpLocation).Include(l => l.DropOffLocation)
+                .ToListAsync();
 
             if (rideHistory == null || !rideHistory.Any())
             {

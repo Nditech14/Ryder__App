@@ -10,18 +10,7 @@ namespace Ryder.Api.Configurations
         {
             services.AddDbContextPool<ApplicationContext>(options =>
             {
-                string connStr;
-
-                if (env.IsDevelopment())
-                {
-                    connStr = config.GetConnectionString("DefaultConnection");
-                    options.UseNpgsql(connStr);
-                }
-                else
-                {
-                    connStr = config.GetConnectionString("DefaultConnection");
-                    options.UseNpgsql(connStr);
-                }
+                options.UseNpgsql(config.GetConnectionString("DefaultConnection"));
             });
         }
     }

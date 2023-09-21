@@ -22,6 +22,10 @@ namespace Ryder.Domain.Context
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Rider> Riders { get; set; }
 
+        public Task GetOrderByIdAsync(Guid orderId)
+        {
+            throw new NotImplementedException();
+        }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
@@ -44,6 +48,7 @@ namespace Ryder.Domain.Context
             return await base.SaveChangesAsync(cancellationToken);
         }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly(), (type) =>
@@ -55,6 +60,13 @@ namespace Ryder.Domain.Context
             foreach (var property in modelBuilder.Model.GetEntityTypes()
                          .SelectMany(t => t.GetProperties())
                          .Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?)))
+            {
+                property.SetColumnType("decimal(18,2)");
+            }
+
+            foreach (var property in modelBuilder.Model.GetEntityTypes()
+                         .SelectMany(t => t.GetProperties())
+                         .Where(p => p.ClrType == typeof(double) || p.ClrType == typeof(double?)))
             {
                 property.SetColumnType("decimal(18,2)");
             }

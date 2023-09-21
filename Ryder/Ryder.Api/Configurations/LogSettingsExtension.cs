@@ -1,41 +1,25 @@
-﻿using Raven.Client.Documents;
-using Serilog;
+﻿using Serilog;
 using Serilog.Events;
-using System.Security.Cryptography.X509Certificates;
-using ILogger = Serilog.ILogger;
+using Serilog.Sinks.Redis;
 
 namespace Ryder.Api.Configurations
 {
     public static class LogSettingsExtension
     {
-        public static void SetupSeriLog(this IServiceCollection services, IConfiguration config, IWebHostEnvironment environment)
+        public static void SetupSeriLog(this IServiceCollection services, IConfiguration config)
         {
-            DocumentStore ravenStore = new()
-            {
-                Urls = new string[] { config["RavenDBConfigurations:ConnectionURL"] },
-                Database = config["RavenDBConfigurations:DatabaseName"],
-                Certificate = new X509Certificate2(config["RavenDBConfigurations:CertificateFilePath"],
-                    config["RavenDBConfigurations:Password"], X509KeyStorageFlags.MachineKeySet)
-            };
+            var redisConfiguration = new RedisConfiguration();
+            redisConfiguration.Host = "127.0.0.1:6379";
 
-            ravenStore.Initialize();
-
-            if (environment.IsDevelopment())
-            {
-                Log.Logger = new LoggerConfiguration()
-                    .WriteTo.File(
-                        path: ".\\Logs\\log-.txt",
-                        outputTemplate:
-                        "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}",
-                        rollingInterval: RollingInterval.Day,
-                        restrictedToMinimumLevel: LogEventLevel.Information
-                    )
-                    .CreateLogger();
-            }
-
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo.RavenDB(ravenStore)
+            var logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .WriteTo.Redis(redisConfiguration) // Ensure that Redis sink is properly configured
                 .CreateLogger();
+
+            logger.Information("This is an informational message...."); // Example log event
+
+
+            Log.Information("Hello, world!");
         }
     }
 }

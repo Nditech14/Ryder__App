@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ryder.Application.AllRiderHistory.Query
+namespace Ryder.Application.Rider.Query.AllRiderHistory
 {
     public class GetOrderResponse
     {
@@ -17,7 +17,6 @@ namespace Ryder.Application.AllRiderHistory.Query
         public OrderStatus Status { get; set; }
         public decimal Amount { get; set; }
         public Guid RiderId { get; set; }
-
     }
 
     public class Location
@@ -29,7 +28,4 @@ namespace Ryder.Application.AllRiderHistory.Query
         public string Latitude { get; set; }
         public string Country { get; set; }
     }
-
-    
-
 }
