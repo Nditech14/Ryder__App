@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="User\Command\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Ryder.Infrastructure\Ryder.Infrastructure.csproj" />
   </ItemGroup>
 
