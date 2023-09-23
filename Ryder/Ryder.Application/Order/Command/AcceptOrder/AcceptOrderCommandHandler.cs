@@ -6,24 +6,28 @@ using Ryder.Domain.Enums;
 using AspNetCoreHero.Results;
 using Ryder.Domain.Context;
 using Microsoft.Extensions.Logging; // Import the logging library.
+using Ryder.Application.Common.Hubs;
+using Microsoft.EntityFrameworkCore;
 
-namespace Ryder.Application.order.Query.AcceptOrder
+namespace Ryder.Application.Order.Command.AcceptOrder
 {
     public class AcceptOrderCommandHandler : IRequestHandler<AcceptOrderCommand, IResult<AcceptOrderResponse>>
     {
         private readonly ApplicationContext _context;
         private readonly ILogger<AcceptOrderCommandHandler> _logger; // Inject the logger.
+        public readonly NotificationHub _notificationHub;
 
-        public AcceptOrderCommandHandler(ApplicationContext context, ILogger<AcceptOrderCommandHandler> logger)
-        {
-            _context = context;
-            _logger = logger;
-        }
+		public AcceptOrderCommandHandler(ApplicationContext context, ILogger<AcceptOrderCommandHandler> logger, NotificationHub notificationHub)
+		{
+			_context = context;
+			_logger = logger;
+			_notificationHub = notificationHub;
+		}
 
-        public async Task<IResult<AcceptOrderResponse>> Handle(AcceptOrderCommand request, CancellationToken cancellationToken)
+		public async Task<IResult<AcceptOrderResponse>> Handle(AcceptOrderCommand request, CancellationToken cancellationToken)
         {
             // Retrieve the order by its unique identifier (orderId) from your context
-            var order = await _context.Orders.FindAsync(request.OrderId);
+            var order = await _context.Orders.FirstOrDefaultAsync(row=> row.UserId ==  request.UserId && row.Id == request.OrderId);
 
             if (order == null)
             {
@@ -46,6 +50,7 @@ namespace Ryder.Application.order.Query.AcceptOrder
             // Assign the rider ID to the order and update its status to "Accepted"
             order.RiderId = request.RiderId;
             order.Status = OrderStatus.Accepted;
+            order.UserId = request.UserId;
 
             // Save the updated order to your data source (e.g., database)
             _context.Orders.Update(order);
@@ -54,8 +59,15 @@ namespace Ryder.Application.order.Query.AcceptOrder
             // Log an information message when the order is successfully accepted.
             _logger.LogInformation($"Order with ID {request.OrderId} accepted.");
 
-            // Handle the successful update
-            return Result<AcceptOrderResponse>.Success($"Order with ID {request.OrderId} accepted.");
+
+            /* >>>>>>>>>>>>>>>> By Ajibade Victor >>>>>>>>>>>>>>>>>>>>>>>*/
+
+			await _notificationHub.NotifyUserOfRequestAccepted(order.UserId.ToString());
+
+			/* >>>>>>>>>>>>>>>> By Ajibade Victor >>>>>>>>>>>>>>>>>>>>>>>*/
+
+			// Handle the successful update
+			return Result<AcceptOrderResponse>.Success($"Order with ID {request.OrderId} accepted.");
         }
 
 

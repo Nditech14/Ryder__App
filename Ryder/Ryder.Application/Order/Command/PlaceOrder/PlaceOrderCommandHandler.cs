@@ -1,5 +1,6 @@
 ﻿using AspNetCoreHero.Results;
 using MediatR;
+using Ryder.Application.Common.Hubs;
 using Ryder.Domain.Context;
 using Ryder.Domain.Entities;
 using Ryder.Domain.Enums;
@@ -14,10 +15,12 @@ namespace Ryder.Application.Order.Command.PlaceOrder
     public class PlaceOrderCommandHandler : IRequestHandler<PlaceOrderCommand, IResult<Guid>>
     {
         private readonly ApplicationContext _context;
+        private readonly NotificationHub _notificationHub;
 
-        public PlaceOrderCommandHandler(ApplicationContext context)
+        public PlaceOrderCommandHandler(ApplicationContext context, NotificationHub notificationHub)
         {
             _context = context;
+            _notificationHub = notificationHub;
         }
 
         public async Task<IResult<Guid>> Handle(PlaceOrderCommand request, CancellationToken cancellationToken)
@@ -53,7 +56,7 @@ namespace Ryder.Application.Order.Command.PlaceOrder
             await _context.Orders.AddAsync(order, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
 
-            return Result<Guid>.Success(order.Id, "Order placed successfully");
+			return Result<Guid>.Success(order.Id, "Order placed successfully");
         }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using AspNetCoreHero.Results;
 using MediatR;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Ryder.Application.Common.Hubs;
 using Ryder.Domain.Context;
+using Ryder.Domain.Enums;
 
 namespace Ryder.Application.Rider.Command.RiderAvailability
 {
@@ -10,14 +13,15 @@ namespace Ryder.Application.Rider.Command.RiderAvailability
             IResult<RiderAvailabilityResponse>>
     {
         private readonly ApplicationContext _Context;
+        private readonly NotificationHub _notificationHub;
 
-        public UpdateRiderAvailabilityCommandHandler(ApplicationContext Context)
-        {
-            _Context = Context;
-        }
+		public UpdateRiderAvailabilityCommandHandler(ApplicationContext context, NotificationHub notificationHub)
+		{
+			_Context = context;
+			_notificationHub = notificationHub;
+		}
 
-
-        public async Task<IResult<RiderAvailabilityResponse>> Handle(UpdateRiderAvailabilityCommand request,
+		public async Task<IResult<RiderAvailabilityResponse>> Handle(UpdateRiderAvailabilityCommand request,
             CancellationToken cancellationToken)
         {
             try
@@ -27,6 +31,7 @@ namespace Ryder.Application.Rider.Command.RiderAvailability
                     AvailabilityStatus = request.AvailabilityStatus,
                     AppUserId = request.RiderId
                 };
+
                 // Retrieve the rider entity from the database using the RiderId
                 var rider = await _Context.Riders.FindAsync(request.RiderId);
 
@@ -43,10 +48,22 @@ namespace Ryder.Application.Rider.Command.RiderAvailability
                 // Save changes to the database
                 await _Context.SaveChangesAsync();
 
-                // Create and return the response
+				// Create and return the response
 
 
-                return Result<RiderAvailabilityResponse>.Success(response);
+
+				/*>>>>>>>>>>>>>>>>> code  my Ajibade Victor >>>>>>>>>>>>>>>>>*/
+
+				if (rider.AvailabilityStatus == RiderAvailabilityStatus.Available)
+				{
+					await _notificationHub.NotifyRidersOfIncomingRequest(rider.Id.ToString());
+				}
+				/*>>>>>>>>>>>>>>>>> code  my Ajibade Victor >>>>>>>>>>>>>>>>>*/
+
+
+
+
+				return Result<RiderAvailabilityResponse>.Success(response);
             }
             catch (Exception ex)
             {

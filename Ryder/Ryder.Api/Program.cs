@@ -1,5 +1,6 @@
 using Ryder.Api.Configurations;
 using Ryder.Application;
+using Ryder.Application.Common.Hubs;
 using Ryder.Infrastructure;
 using Ryder.Infrastructure.Implementation;
 using Ryder.Infrastructure.Interface;
@@ -12,7 +13,8 @@ builder.Services.AddDbContextAndConfigurations(builder.Environment, builder.Conf
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.AddScoped<IUserService, UserService>();
-
+builder.Services.AddSingleton<NotificationHub>();
+builder.Services.AddSignalR();
 
 // Add services to the container.
 
@@ -26,20 +28,18 @@ builder.Services.ConfigureJwtAuthentication(builder.Configuration);
 builder.Services.AddDbContextAndConfigurations(builder.Environment, builder.Configuration);
 builder.Services.ApplicationDependencyInjection();
 builder.Services.InjectInfrastructure(builder.Configuration);
-<<<<<<< HEAD
-builder.Services.ConfigureSignalR(builder.Build());
-=======
 builder.Services.SetupSeriLog(builder.Configuration);
 
 // Add configuration settings from appsettings.json
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
->>>>>>> b69488edbc0e3d3adcb19350129a18c5c69f0872
 
 var app = builder.Build();
 
+app.UseRouting();   
 
+app.ConfigureSignalR();
 // Configure the HTTP request pipeline.
 
 app.UseSwagger();

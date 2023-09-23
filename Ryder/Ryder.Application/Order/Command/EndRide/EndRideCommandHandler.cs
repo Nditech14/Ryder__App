@@ -6,18 +6,22 @@ using Ryder.Domain.Enums;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging; // Import the logging library.
+using System.Runtime.CompilerServices;
+using Ryder.Application.Common.Hubs;
 
-namespace Ryder.Application.order.Query.EndRide
+namespace Ryder.Application.Order.Command.EndRide
 {
     public class EndRideCommandHandler : IRequestHandler<EndRideCommand, IResult<EndRideResponse>>
     {
         private readonly ApplicationContext _context;
         private readonly ILogger<EndRideCommandHandler> _logger; // Inject the logger.
+        private readonly NotificationHub _notificationHub;
 
-        public EndRideCommandHandler(ApplicationContext context, ILogger<EndRideCommandHandler> logger)
+        public EndRideCommandHandler(ApplicationContext context, ILogger<EndRideCommandHandler> logger, NotificationHub notificationHub)
         {
             _context = context;
             _logger = logger;
+            _notificationHub = notificationHub;
 
             // Log an information message when the handler is initialized.
             _logger.LogInformation("EndRideCommandHandler initialized.");
@@ -51,8 +55,14 @@ namespace Ryder.Application.order.Query.EndRide
             // Log an information message when the order is successfully updated.
             _logger.LogInformation($"Order with ID {request.OrderId} updated successfully.");
 
-            // Handle the successful update and return response
-            return Result<EndRideResponse>.Success(new EndRideResponse()
+            /* >>>>>>>>>>>>>>> By Ajibade Victor >>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+
+            await  _notificationHub.NotifyUserAndRiderOfOrderCompleted(order.UserId.ToString(), order.RiderId.ToString());
+
+			/* >>>>>>>>>>>>>>> By Ajibade Victor >>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+
+			// Handle the successful update and return response
+			return Result<EndRideResponse>.Success(new EndRideResponse()
             {
                 OrderId = order.Id,
                 RiderId = order.RiderId,
