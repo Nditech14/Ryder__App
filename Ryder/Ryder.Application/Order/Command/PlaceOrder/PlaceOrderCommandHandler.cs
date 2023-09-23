@@ -15,14 +15,11 @@ namespace Ryder.Application.Order.Command.PlaceOrder
     public class PlaceOrderCommandHandler : IRequestHandler<PlaceOrderCommand, IResult<Guid>>
     {
         private readonly ApplicationContext _context;
-        private readonly NotificationHub _notificationHub;
-
-        public PlaceOrderCommandHandler(ApplicationContext context, NotificationHub notificationHub)
+       
+        public PlaceOrderCommandHandler(ApplicationContext context)
         {
             _context = context;
-            _notificationHub = notificationHub;
         }
-
         public async Task<IResult<Guid>> Handle(PlaceOrderCommand request, CancellationToken cancellationToken)
         {
             var order = new Domain.Entities.Order

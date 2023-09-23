@@ -55,11 +55,6 @@ namespace Ryder.Application.Order.Command.EndRide
             // Log an information message when the order is successfully updated.
             _logger.LogInformation($"Order with ID {request.OrderId} updated successfully.");
 
-            /* >>>>>>>>>>>>>>> By Ajibade Victor >>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-
-            await  _notificationHub.NotifyUserAndRiderOfOrderCompleted(order.UserId.ToString(), order.RiderId.ToString());
-
-			/* >>>>>>>>>>>>>>> By Ajibade Victor >>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 
 			// Handle the successful update and return response
 			return Result<EndRideResponse>.Success(new EndRideResponse()

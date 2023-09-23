@@ -15,7 +15,5 @@ namespace Ryder.Domain.Entities
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public Guid RiderId { get; set; }
-
-        public Guid UserId { get; set; }
     }
 }
