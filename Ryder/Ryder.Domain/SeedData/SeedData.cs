@@ -29,14 +29,14 @@
 //                    EmailConfirmed = false,
 //                    PhoneNumber = "08121183004",
 //                    PhoneNumberConfirmed = true,
-//                    Address = new Address
+//					Address = new Address
 //                    {
 //                        Id = Guid.NewGuid(),
 //                        City = "Warri",
 //                        State = "Delta",
 //                        PostCode = "+234",
-//                        Longitude = 3,
-//                        Latitude = 4,
+//                        Longitude = 3.ToString(),
+//                        Latitude = 4.ToString(),
 //                        Country = "Nigeria"
 //                    },
 //                    TwoFactorEnabled = false,
