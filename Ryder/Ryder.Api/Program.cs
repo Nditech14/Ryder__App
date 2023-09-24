@@ -13,6 +13,9 @@ builder.Services.AddDbContextAndConfigurations(builder.Environment, builder.Conf
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddSingleton<NotificationHub>();
+builder.Services.AddSignalR();
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -36,7 +39,9 @@ var app = builder.Build();
 
 app.UseRouting();   
 
+app.UseAuthorization();
 
+app.ConfigureSignalR();
 // Configure the HTTP request pipeline.
 
 app.UseSwagger();
