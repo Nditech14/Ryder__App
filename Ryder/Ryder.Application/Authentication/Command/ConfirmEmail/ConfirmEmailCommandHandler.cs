@@ -23,8 +23,9 @@ namespace Ryder.Application.Authentication.Command.ConfirmEmail
                 return await Result.FailAsync("User does not exist");
 
             var decodedToken = TokenConverter.DecodeToken(user.Otp);
+            var result = await _userManager.ConfirmEmailAsync(user, decodedToken);
 
-            if (decodedToken != request.Otp)
+            if (decodedToken != request.Otp && !result.Succeeded)
                 return await Result.FailAsync("Invalid or expired token.");
 
             user.EmailConfirmed = true;
