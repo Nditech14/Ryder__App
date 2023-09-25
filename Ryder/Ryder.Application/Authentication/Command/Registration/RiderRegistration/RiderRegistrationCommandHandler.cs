@@ -35,7 +35,6 @@ namespace Ryder.Application.Authentication.Command.Registration.RiderRegistratio
                 LastName = request.LastName,
                 Email = request.Email,
                 PhoneNumber = request.PhoneNumber,
-                PasswordHash = request.Password,
                 UserName = request.Email
             };
 
