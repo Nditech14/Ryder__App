@@ -37,7 +37,9 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnC
 
 var app = builder.Build();
 
-app.UseRouting();   
+app.UseRouting();  
+
+app.UseAuthorization();
 
 app.ConfigureSignalR();
 // Configure the HTTP request pipeline.

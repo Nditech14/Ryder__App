@@ -16,17 +16,19 @@ namespace Ryder.Application.Common.Hubs
     public class NotificationHub : Hub
     {
 
+		
 		public async Task NotifyRidersOfIncomingRequest(string riderConnectionId)
 		{
 			await Clients.Client(riderConnectionId).SendAsync("IncomingRequest", "You have an incoming request.");
 			
 		}
 
-
+	
 		public async Task NotifyUserOfRequestAccepted(string userConnectionId)
 		{
 			await Clients.Client(userConnectionId).SendAsync("RequestAccepted", "Your request has been accepted.");
 		}
+
 
 		public async Task NotifyUserAndRiderOfOrderCompleted(string userConnectionId, string riderConnectionId)
 		{
