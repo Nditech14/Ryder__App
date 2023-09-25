@@ -58,9 +58,6 @@ namespace Ryder.Application.Authentication.Command.Registration.RiderRegistratio
                 //Send Confirmation mail
                 var token = new Random().Next(100000, 999999).ToString();
 
-                user.Otp = TokenConverter.EncodeToken(token);
-                user.OtpExpiration = DateTime.UtcNow.AddMinutes(10);
-
                 //TODO:Change this to an email template
                 var emailBody =
                     $"Your confirmation code is {token}. Please enter this code on our website to confirm your email address. This code will expire in 10 minutes.";
