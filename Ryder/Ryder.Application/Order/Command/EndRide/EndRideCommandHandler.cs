@@ -15,14 +15,12 @@ namespace Ryder.Application.Order.Command.EndRide
     {
         private readonly ApplicationContext _context;
         private readonly ILogger<EndRideCommandHandler> _logger; // Inject the logger.
-        private readonly NotificationHub _notificationHub;
 
-        public EndRideCommandHandler(ApplicationContext context, ILogger<EndRideCommandHandler> logger, NotificationHub notificationHub)
+        public EndRideCommandHandler(ApplicationContext context, ILogger<EndRideCommandHandler> logger)
         {
             _context = context;
             _logger = logger;
-            _notificationHub = notificationHub;
-
+      
             // Log an information message when the handler is initialized.
             _logger.LogInformation("EndRideCommandHandler initialized.");
         }

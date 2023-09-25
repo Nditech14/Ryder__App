@@ -13,12 +13,11 @@ namespace Ryder.Application.Rider.Command.RiderAvailability
             IResult<RiderAvailabilityResponse>>
     {
         private readonly ApplicationContext _Context;
-        private readonly NotificationHub _notificationHub;
 
-		public UpdateRiderAvailabilityCommandHandler(ApplicationContext context, NotificationHub notificationHub)
+		public UpdateRiderAvailabilityCommandHandler(ApplicationContext context)
 		{
 			_Context = context;
-			_notificationHub = notificationHub;
+			
 		}
 
 		public async Task<IResult<RiderAvailabilityResponse>> Handle(UpdateRiderAvailabilityCommand request,
@@ -49,18 +48,6 @@ namespace Ryder.Application.Rider.Command.RiderAvailability
                 await _Context.SaveChangesAsync();
 
 				// Create and return the response
-
-
-
-				/*>>>>>>>>>>>>>>>>> code  my Ajibade Victor >>>>>>>>>>>>>>>>>*/
-
-				if (rider.AvailabilityStatus == RiderAvailabilityStatus.Available)
-				{
-					await _notificationHub.NotifyRidersOfIncomingRequest(rider.Id.ToString());
-				}
-				/*>>>>>>>>>>>>>>>>> code  my Ajibade Victor >>>>>>>>>>>>>>>>>*/
-
-
 
 
 				return Result<RiderAvailabilityResponse>.Success(response);

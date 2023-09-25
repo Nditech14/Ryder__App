@@ -18,7 +18,7 @@ namespace Ryder.Application.Common.Hubs
 
 		public async Task NotifyRidersOfIncomingRequest(string riderConnectionId)
 		{
-			await Clients.Client(riderConnectionId).SendAsync("IncomingRequest", "You have an incoming request.");
+			await Clients.Client(riderConnectionId).SendAsync("IncomingRequest", "You have an incoming request.");	
 			
 		}
 
