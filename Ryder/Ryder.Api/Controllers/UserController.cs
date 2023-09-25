@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Ryder.Application.User.Query.GetCurrentUser;
 using Ryder.Application.User.Query.GetUserProfile;
 using System.Security.Claims;
@@ -13,11 +14,13 @@ namespace Ryder.Api.Controllers
             return await Initiate(() => Mediator.Send(new GetCurrentUserCommand()));
         }
 
-        [HttpGet("GetUserProfile")]
-        public async Task<IActionResult> GetUserProfileAsync()
+        [AllowAnonymous]
+        [HttpGet("GetUserProfile/{id}")]
+        public async Task<IActionResult> GetUserProfileAsync(string id)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);    
-            return await Initiate(() => Mediator.Send(new GetUserProfileQuery(userId)));
+            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = "7cd2e636-df08-4e3c-95e6-a337808037bb";
+            return await Initiate(() => Mediator.Send(new GetUserProfileQuery(id)));
         }
     }
 }
