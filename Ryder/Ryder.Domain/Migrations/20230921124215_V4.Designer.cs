@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Ryder.Domain.Context;
@@ -11,9 +12,11 @@ using Ryder.Domain.Context;
 namespace Ryder.Domain.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230921124215_V4")]
+    partial class V4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -205,7 +208,7 @@ namespace Ryder.Domain.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
 
-                    b.Property<Guid?>("AddressId")
+                    b.Property<Guid>("AddressId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -241,6 +244,13 @@ namespace Ryder.Domain.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
+                    b.Property<string>("Otp")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("OtpExpiration")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<string>("PasswordHash")
                         .HasColumnType("text");
 
@@ -251,6 +261,7 @@ namespace Ryder.Domain.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("ProfilePictureUrl")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("RefreshToken")
@@ -626,7 +637,9 @@ namespace Ryder.Domain.Migrations
                 {
                     b.HasOne("Ryder.Domain.Entities.Address", "Address")
                         .WithMany()
-                        .HasForeignKey("AddressId");
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Address");
                 });
