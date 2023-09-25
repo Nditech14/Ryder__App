@@ -48,7 +48,8 @@ namespace Ryder.Application.Authentication.Command.Registration.UserRegistration
                 if (!CreateRole.Succeeded) return Result.Fail();
 
                 //Send Confirmation mail
-                var token = new Random().Next(100000, 999999).ToString();
+               /* var token = new Random().Next(100000, 999999).ToString();*/
+               var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
                 //TODO:Change this to an email template
                 var emailBody =

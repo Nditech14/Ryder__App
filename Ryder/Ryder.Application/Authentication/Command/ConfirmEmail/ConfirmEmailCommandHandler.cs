@@ -21,7 +21,6 @@ namespace Ryder.Application.Authentication.Command.ConfirmEmail
 
             if (user == null)
                 return await Result.FailAsync("User does not exist");
-
             user.EmailConfirmed = true;
 
             await _userManager.UpdateAsync(user);
