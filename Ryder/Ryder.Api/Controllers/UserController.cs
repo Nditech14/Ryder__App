@@ -13,11 +13,9 @@ namespace Ryder.Api.Controllers
             return await Initiate(() => Mediator.Send(new GetCurrentUserCommand()));
         }
 
-        [HttpPut("UpdateUserProfile")]
-        public async Task<IActionResult> UpdateUaserProfile([FromBody] ProfileModel profileUpdate)
+        [HttpPut("UpdateUserProfile/{id}")]
+        public async Task<IActionResult> UpdateUaserProfile(string userId, [FromBody] ProfileModel profileUpdate)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            
             return await Initiate(() => Mediator.Send(new EditUserProfileComand(userId, profileUpdate)));
         }
     }
