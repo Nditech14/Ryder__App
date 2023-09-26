@@ -19,9 +19,8 @@ namespace Ryder.Application.Order.Command.PlaceOrder
         public string PackageDescription { get; set; }
         public string ReferenceNumber { get; set; }
         public decimal Amount { get; set; }
-        public Guid RiderId { get; set; }
         public Guid AppUserId { get; set; }
-        public ClaimsPrincipal CurrentUser { get; set; }
+
     }
 
     public class PlaceOrderAddressCommand

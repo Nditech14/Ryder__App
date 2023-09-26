@@ -27,7 +27,7 @@ namespace Ryder.Application.Order.Command.PlaceOrder
         {
             try
             {
-                var currentUser = await _userManager.GetUserAsync(request.CurrentUser);
+                var currentUser = await _userManager.FindByIdAsync(request.AppUserId.ToString());
 
                 if (currentUser == null)
                 {
@@ -59,7 +59,7 @@ namespace Ryder.Application.Order.Command.PlaceOrder
                     PackageDescription = request.PackageDescription,
                     ReferenceNumber = request.ReferenceNumber,
                     Amount = request.Amount,
-                    RiderId = null,
+                    RiderId = Guid.Empty,
                     AppUserId = currentUser.Id,
                     Status = OrderStatus.OrderPlaced
                 };

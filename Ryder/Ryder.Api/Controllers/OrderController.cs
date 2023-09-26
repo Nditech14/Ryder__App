@@ -19,7 +19,7 @@ namespace Ryder.Api.Controllers
             _logger.LogInformation("OrderController initialized.");
         }
 
-        [AllowAnonymous]
+        
         [HttpPost("placeOrder")]
         public async Task<IActionResult> PlaceOrder([FromBody] PlaceOrderCommand placeOrder)
         {
@@ -33,7 +33,7 @@ namespace Ryder.Api.Controllers
             return await Initiate(() => Mediator.Send(command));
         }
 
-        [AllowAnonymous]
+      
         [HttpGet("getAllOrder")]
         public async Task<IActionResult> GetAllOrder([FromQuery] Guid appUserId)
         {
@@ -47,7 +47,7 @@ namespace Ryder.Api.Controllers
             return await Initiate(() => Mediator.Send(command));
         }
 
-        [AllowAnonymous]
+   
         [HttpGet("{appUserId}/{orderId}")]
         public async Task<IActionResult> GetOrderById(Guid appUserId, Guid orderId)
         {
