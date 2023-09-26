@@ -58,7 +58,7 @@ namespace Ryder.Application.Order.Command.EndRide
 			return Result<EndRideResponse>.Success(new EndRideResponse()
             {
                 OrderId = order.Id,
-                RiderId = order.RiderId,
+                RiderId = (Guid)order.RiderId,
                 DropOffLocation = order.DropOffLocation,
                 PickUpPhoneNumber = order.PickUpPhoneNumber,
                 Status = order.Status,
