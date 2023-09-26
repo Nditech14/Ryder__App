@@ -15,10 +15,6 @@ namespace Ryder.Application.User.Query.GetUserProfile
     {
         public string UserId { get; set; }
 
-        public GetUserProfileQuery(string id) => UserId = id;
-
-        
-
     }
 
 
