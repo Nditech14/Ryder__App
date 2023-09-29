@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Ryder.Application.order.Query.OrderProgress;
 using Ryder.Application.Order.Command.AcceptOrder;
 using Ryder.Application.Order.Command.EndRide;
@@ -19,6 +20,7 @@ namespace Ryder.Api.Controllers
         }
 
         [HttpPost("placeOrder")]
+        [AllowAnonymous]
         public async Task<IActionResult> PlaceOrder([FromBody] PlaceOrderCommand placeOrder)
         {
             return await Initiate(() => Mediator.Send(placeOrder));

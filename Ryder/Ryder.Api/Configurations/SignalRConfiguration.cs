@@ -14,6 +14,8 @@ namespace Ryder.Api.Configurations
 
 			});
 
+			
+
 		}
 	}
 }	

@@ -15,6 +15,16 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddSingleton<NotificationHub>();
 builder.Services.AddSignalR();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowCrossOrigin", builder =>
+    {
+        builder.AllowAnyMethod()
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .AllowCredentials();
+    });
+});
 
 // Add services to the container.
 
@@ -48,15 +58,14 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.UseDeveloperExceptionPage();
 
-//await Seeder.SeedData(app);
+await Seeder.SeedData(app);
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseCors("AllowCrossOrigin");
 app.MapControllers();
-
-
 
 
 app.Run();

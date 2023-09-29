@@ -1,5 +1,6 @@
 ﻿using AspNetCoreHero.Results;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Ryder.Application.Common.Hubs;
 using Ryder.Domain.Context;
 using Ryder.Domain.Entities;
@@ -55,6 +56,12 @@ namespace Ryder.Application.Order.Command.PlaceOrder
 
             await _context.Orders.AddAsync(order, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
+             
+            List<string> getAllAvailableRiders = await  _context.Riders.Where(row => row.AvailabilityStatus == RiderAvailabilityStatus.Available).Select(rider => rider.Id.ToString()).ToListAsync();
+
+           
+            await _notificationHub.NotifyRidersOfIncomingRequest(getAllAvailableRiders);
+            
 
 			return Result<Guid>.Success(order.Id, "Order placed successfully");
         }
