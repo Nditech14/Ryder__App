@@ -15,7 +15,6 @@ namespace Ryder.Application.Order.Command.AcceptOrder
     {
         public Guid OrderId { get; init; }
         public Guid RiderId { get; init; }
-        public Guid UserId { get; init; }
     }
 
     public class AcceptOrderCommandValidator : AbstractValidator<AcceptOrderCommand>

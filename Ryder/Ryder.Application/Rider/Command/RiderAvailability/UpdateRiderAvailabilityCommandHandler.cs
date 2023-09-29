@@ -13,7 +13,6 @@ namespace Ryder.Application.Rider.Command.RiderAvailability
             IResult<RiderAvailabilityResponse>>
     {
         private readonly ApplicationContext _Context;
-        
 
 		public UpdateRiderAvailabilityCommandHandler(ApplicationContext context)
 		{
