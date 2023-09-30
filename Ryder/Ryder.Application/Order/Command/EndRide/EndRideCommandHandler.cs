@@ -46,7 +46,7 @@ namespace Ryder.Application.Order.Command.EndRide
             // Update the order details
             order.RiderId = request.OrderId;
 
-            // Save the updated order to your data source (e.g., database)
+           
             _context.Update(order);
 
             await _context.SaveChangesAsync();

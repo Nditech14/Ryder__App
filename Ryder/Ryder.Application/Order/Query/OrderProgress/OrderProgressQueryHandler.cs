@@ -42,13 +42,6 @@ namespace Ryder.Application.Order.Query.OrderProgress
                     {
                         Status = EnumHelper.GetEnumDescription(order.Status),
                     };
-                    
-                       
-                   
-         
-                       
-                    
-
                     // Return a successful result with the response data.
                     return Result<OrderProgressResponse>.Success(response);
                 }

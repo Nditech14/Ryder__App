@@ -10,13 +10,8 @@ using System.Threading.Tasks;
 namespace Ryder.Application.Order.Query.OrderProgress
 {
     public class OrderProgressResponse
-    {
-        //public  string Message;
-        
+    {  
         public string Status { get; set; }
-        
-        
-
 
     }
 }
