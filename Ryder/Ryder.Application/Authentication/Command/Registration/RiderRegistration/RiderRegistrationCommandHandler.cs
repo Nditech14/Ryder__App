@@ -42,7 +42,8 @@ namespace Ryder.Application.Authentication.Command.Registration.RiderRegistratio
             {
                 ValidIdUrl = request.ValidIdUrl,
                 PassportPhoto = request.PassportPhoto,
-                BikeDocument = request.BikeDocument
+                BikeDocument = request.BikeDocument,
+                City = request.City,
             };
 
             //Perform transaction and save to Db

@@ -14,6 +14,7 @@ namespace Ryder.Application.Authentication.Command.Registration.RiderRegistratio
         public string ValidIdUrl { get; set; }
         public string PassportPhoto { get; set; }
         public string BikeDocument { get; set; }
+        public string City { get; set; }
     }
 
     public class RiderRegistrationCommandValidator : AbstractValidator<RiderRegistrationCommand>
@@ -29,6 +30,7 @@ namespace Ryder.Application.Authentication.Command.Registration.RiderRegistratio
                 .WithMessage("Invalid Password, must have 'ABCabcd723#$@'");
             RuleFor(x => x.ValidIdUrl).NotNull().NotEmpty().WithMessage("Id cannot be empty");
             RuleFor(x => x.BikeDocument).NotEmpty().NotNull().WithMessage("Document cannot be empty");
+            RuleFor(x => x.City).NotEmpty().NotNull().WithMessage("Document cannot be empty");
         }
     }
 }
