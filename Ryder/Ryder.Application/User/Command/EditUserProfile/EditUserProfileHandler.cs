@@ -1,47 +1,39 @@
 ﻿using AspNetCoreHero.Results;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Ryder.Domain.Context;
 using Ryder.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ryder.Application.User.Command.EditUserProfile
 {
     public class EditUserProfileHandler : IRequestHandler<EditUserProfileComand, IResult>
     {
-        private readonly UserManager<AppUser> _appUser;
+        private readonly UserManager<AppUser> _userManager;
 
-        public EditUserProfileHandler(UserManager<AppUser> context) => _appUser = context;   
+        public EditUserProfileHandler(UserManager<AppUser> userManager) => _userManager = userManager;
 
         public async Task<IResult> Handle(EditUserProfileComand request, CancellationToken cancellationToken)
         {
             try
             {
-                var update = new AppUser
-                {
-                    Id = Guid.Parse(request.UserId),
-                    FirstName = request.ProfileModel.FirstName,
-                    LastName = request.ProfileModel.LastName,
-                    Email = request.ProfileModel.Email,
-                    PhoneNumber = request.ProfileModel.UserPhoneNumber
-                };
+                var user = await _userManager.FindByIdAsync(request.UserId);
+                if (user == null) return Result.Fail("User does not exist");
 
-                var result = await _appUser.UpdateAsync(update);
-                
+                user.Id = Guid.Parse(request.UserId);
+                user.FirstName = request.ProfileModel.FirstName;
+                user.LastName = request.ProfileModel.LastName;
+                user.Email = request.ProfileModel.Email;
+                user.PhoneNumber = request.ProfileModel.UserPhoneNumber;
 
-                if (result.Succeeded) return Result.Success("Update successfull");
+                var result = await _userManager.UpdateAsync(user);
 
-                return Result.Fail("Oops Something Went Wrong");
-
+                return result.Succeeded
+                    ? Result.Success("Update successful")
+                    : Result.Fail("Oops Something Went Wrong");
             }
             catch (Exception ex)
             {
                 return Result.Fail("Oops Something Went Wrong " + ex.Message);
             }
         }
-    }   
+    }
 }
