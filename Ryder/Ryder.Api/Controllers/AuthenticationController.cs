@@ -13,14 +13,14 @@ namespace Ryder.Api.Controllers
 {
     public class AuthenticationController : ApiController
     {
-       
+        [AllowAnonymous]
         [HttpPost("CreateUser")]
         public async Task<IActionResult> CreateUser(UserRegistrationCommand command)
         {
             return await Initiate(() => Mediator.Send(command));
         }
 
-        
+        [AllowAnonymous]
         [HttpPost("CreateRider")]
         public async Task<IActionResult> CreateRider(RiderRegistrationCommand command)
         {
