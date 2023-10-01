@@ -21,7 +21,7 @@ public class RiderController : ApiController
         return await Initiate(() => Mediator.Send(new GetRiderAvailabilityQuery { RiderId = id }));
     }
 
-    [AllowAnonymous]
+    
     [HttpGet("ride-history-by-id/{riderId}")]
     public async Task<IActionResult> GetRideHistoryById(Guid riderId)
     {
