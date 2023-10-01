@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Ryder.Application.User.Command.EditUserProfile;
 using Ryder.Application.User.Query.GetCurrentUser;
-using Ryder.Application.User.Query.GetUserProfile;
 using System.Security.Claims;
 
 namespace Ryder.Api.Controllers
@@ -14,10 +14,10 @@ namespace Ryder.Api.Controllers
             return await Initiate(() => Mediator.Send(new GetCurrentUserCommand()));
         }
 
-        [HttpGet("GetUserProfile/{id}")]
-        public async Task<IActionResult> GetUserProfileAsync(string id)
+        [HttpPut("UpdateUserProfile/{id}")]
+        public async Task<IActionResult> UpdateUaserProfile(string userId, [FromBody] ProfileModel profileUpdate)
         {
-            return await Initiate(() => Mediator.Send(new GetUserProfileQuery(id)));
+            return await Initiate(() => Mediator.Send(new EditUserProfileComand(userId, profileUpdate)));
         }
     }
 }

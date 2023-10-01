@@ -15,16 +15,18 @@ namespace Ryder.Application.Authentication.Command.Registration.RiderRegistratio
         private readonly ApplicationContext _context;
         private readonly UserManager<AppUser> _userManager;
         private readonly ISmtpEmailService _emailService;
+        private readonly IDocumentUploadService _uploadService;
 
         public RiderRegistrationCommandHandler(ApplicationContext context, UserManager<AppUser> userManager,
-            ISmtpEmailService emailService)
+            ISmtpEmailService emailService, IDocumentUploadService uploadService)
         {
             _context = context;
             _userManager = userManager;
             _emailService = emailService;
+            _uploadService = uploadService;
         }
 
-        public async Task<IResult> Handle(RiderRegistrationCommand request, CancellationToken cancellationToken)
+        public async Task<IResult> Handle(RiderRegistrationCommand request,  CancellationToken cancellationToken)
         {
             //Perform logic for sign up as a Rider
             var user = await _userManager.FindByEmailAsync(request.Email);
@@ -38,11 +40,18 @@ namespace Ryder.Application.Authentication.Command.Registration.RiderRegistratio
                 UserName = request.Email
             };
 
+            var validIdUpload = await _uploadService.DocumentUploadAsync(request.ValidIdUrl);
+            if (validIdUpload == null) return Result.Fail("Failed to upload valid Id");
+            var passportPhotoUpload = await _uploadService.PhotoUploadAsync(request.PassportPhoto);
+            if (passportPhotoUpload == null) return Result.Fail("Failed to upload passport photo");
+            var bikeDocumentUpload = await _uploadService.DocumentUploadAsync(request.BikeDocument);
+            if (bikeDocumentUpload == null) return Result.Fail("Failed to upload bike document");
+
             var riderDocumentation = new Domain.Entities.Rider()
             {
-                ValidIdUrl = request.ValidIdUrl,
-                PassportPhoto = request.PassportPhoto,
-                BikeDocument = request.BikeDocument
+                ValidIdUrl = validIdUpload.SecureUrl.ToString(),
+                PassportPhoto = passportPhotoUpload.SecureUrl.ToString(),
+                BikeDocument = bikeDocumentUpload.SecureUrl.ToString(),
             };
 
             //Perform transaction and save to Db
