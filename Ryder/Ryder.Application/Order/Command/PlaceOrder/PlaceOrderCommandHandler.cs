@@ -1,5 +1,6 @@
 ﻿using AspNetCoreHero.Results;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Ryder.Application.Common.Hubs;
 using Ryder.Domain.Context;
@@ -17,13 +18,16 @@ namespace Ryder.Application.Order.Command.PlaceOrder
     {
         private readonly ApplicationContext _context;
         private readonly UserManager<AppUser> _userManager;
-       
-        public PlaceOrderCommandHandler(ApplicationContext context, UserManager<AppUser> userManager)
-        {
-            _context = context;
-            _userManager = userManager;
-        }
-        public async Task<IResult<Guid>> Handle(PlaceOrderCommand request, CancellationToken cancellationToken)
+        private readonly NotificationHub _notificationHub;
+
+		public PlaceOrderCommandHandler(ApplicationContext context, UserManager<AppUser> userManager, NotificationHub notificationHub)
+		{
+			_context = context;
+			_userManager = userManager;
+			_notificationHub = notificationHub;
+		}
+
+		public async Task<IResult<Guid>> Handle(PlaceOrderCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -63,15 +67,21 @@ namespace Ryder.Application.Order.Command.PlaceOrder
                     AppUserId = currentUser.Id,
                     Status = OrderStatus.OrderPlaced
                 };
-           
-                await _context.Orders.AddAsync(order, cancellationToken);
-                await _context.SaveChangesAsync(cancellationToken);
-      
-                List<string> getAllAvailableRiders = await  _context.Riders.Where(row => row.AvailabilityStatus == RiderAvailabilityStatus.Available).Select(rider => rider.Id.ToString()).ToListAsync();
 
-                await _notificationHub.NotifyRidersOfIncomingRequest(getAllAvailableRiders);
 
-                    return Result<Guid>.Success(order.Id, "Order placed successfully");
+				List<string> getAllAvailableRiders = await _context.Riders.Where(row => row.AvailabilityStatus == RiderAvailabilityStatus.Available).Select(rider => rider.Id.ToString()).ToListAsync();
+
+				if (!getAllAvailableRiders.Any())
+				{
+					return Result<Guid>.Fail("No available rider to fufil your order!");
+				}
+
+				await _notificationHub.NotifyRidersOfIncomingRequest(getAllAvailableRiders);
+
+				await _context.Orders.AddAsync(order, cancellationToken);
+                await _context.SaveChangesAsync(cancellationToken);           
+
+				return Result<Guid>.Success(order.Id, "Order placed successfully");
             }
             catch (Exception)
             {
