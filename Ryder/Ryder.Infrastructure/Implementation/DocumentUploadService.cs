@@ -17,11 +17,10 @@ namespace Ryder.Infrastructure.Implementation
     public class DocumentUploadService : IDocumentUploadService
     {
         private readonly Cloudinary _cloudinary;
-        private readonly IConfiguration _configuration;
-        public DocumentUploadService(Cloudinary cloudinary, IConfiguration configuration)
+   
+        public DocumentUploadService(Cloudinary cloudinary)
         {
             _cloudinary = cloudinary;
-            _configuration = configuration;
         }
 
         public async Task<List<UploadResult>> UploadFilesAsync(List<IFormFile> files)
@@ -35,13 +34,13 @@ namespace Ryder.Infrastructure.Implementation
                     throw new ArgumentException("Invalid file data.");
                 }
 
-                var pictureSize = Convert.ToInt64(_configuration["PhotoSettings:Size"]);
+                const int pictureSize = 1000 * 1024;
                 if (file.Length > pictureSize)
                 {
-                    throw new ArgumentException("File size exceeded");
+                    throw new ArgumentException("File size exceed the maximum limit (1mb).");
                 }
-               
-                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+
+                var allowedExtensions = new[] { ".jpg", ".png", ".pdf" };
                 var fileExtension = Path.GetExtension(file.FileName).ToLowerInvariant();
                 if (!allowedExtensions.Contains(fileExtension))
                 {
@@ -72,13 +71,13 @@ namespace Ryder.Infrastructure.Implementation
                 throw new ArgumentException("Invalid file data.");
             }
 
-            var pictureSize = Convert.ToInt64(_configuration["PhotoSettings:Size"]);
+            const int pictureSize = 1000 * 1024;
             if (documentFile.Length > pictureSize)
             {
-                throw new ArgumentException("File size exceeded");
+                throw new ArgumentException("File size exceed the maximum limit (1mb).");
             }
 
-            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+            var allowedExtensions = new[] { ".jpg", ".png", ".pdf"};
             var fileExtension = Path.GetExtension(documentFile.FileName).ToLowerInvariant();
             if (!allowedExtensions.Contains(fileExtension))
             {
@@ -109,13 +108,13 @@ namespace Ryder.Infrastructure.Implementation
                 throw new ArgumentException("Invalid file data.");
             }
 
-            var pictureSize = Convert.ToInt64(_configuration["PhotoSettings:Size"]);
+            const int pictureSize = 1000 * 1024;
             if (photoFile.Length > pictureSize)
             {
-                throw new ArgumentException("File size exceeded");
+                throw new ArgumentException("File size exceed the maximum limit (1mb).");
             }
 
-            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+            var allowedExtensions = new[] { ".jpg", ".png", ".pdf" };
             var fileExtension = Path.GetExtension(photoFile.FileName).ToLowerInvariant();
             if (!allowedExtensions.Contains(fileExtension))
             {
