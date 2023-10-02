@@ -20,9 +20,9 @@ namespace Ryder.Api.Controllers
             return await Initiate(() => Mediator.Send(command));
         }
 
-        
+        [AllowAnonymous]
         [HttpPost("CreateRider")]
-        public async Task<IActionResult> CreateRider(RiderRegistrationCommand command)
+        public async Task<IActionResult> CreateRider([FromForm]RiderRegistrationCommand command)
         {
             return await Initiate(() => Mediator.Send(command));
         }

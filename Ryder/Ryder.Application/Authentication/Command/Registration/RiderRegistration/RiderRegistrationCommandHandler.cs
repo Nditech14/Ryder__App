@@ -33,6 +33,7 @@ namespace Ryder.Application.Authentication.Command.Registration.RiderRegistratio
             if (user != null) return Result.Fail("Rider exist");
             user = new Domain.Entities.AppUser()
             {
+                Id = Guid.NewGuid(),
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Email = request.Email,
@@ -52,6 +53,7 @@ namespace Ryder.Application.Authentication.Command.Registration.RiderRegistratio
                 ValidIdUrl = validIdUpload.SecureUrl.ToString(),
                 PassportPhoto = passportPhotoUpload.SecureUrl.ToString(),
                 BikeDocument = bikeDocumentUpload.SecureUrl.ToString(),
+                AppUserId = user.Id
             };
 
             //Perform transaction and save to Db
