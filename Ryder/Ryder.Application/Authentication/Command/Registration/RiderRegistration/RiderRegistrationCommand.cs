@@ -1,6 +1,8 @@
 ﻿using AspNetCoreHero.Results;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 
 namespace Ryder.Application.Authentication.Command.Registration.RiderRegistration
 {
@@ -11,10 +13,9 @@ namespace Ryder.Application.Authentication.Command.Registration.RiderRegistratio
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
-        public string ValidIdUrl { get; set; }
-        public string PassportPhoto { get; set; }
-        public string BikeDocument { get; set; }
-        public string City { get; set; }
+        public IFormFile ValidIdUrl { get; set; }
+        public IFormFile PassportPhoto { get; set; }
+        public IFormFile BikeDocument { get; set; }
     }
 
     public class RiderRegistrationCommandValidator : AbstractValidator<RiderRegistrationCommand>
