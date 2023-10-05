@@ -38,7 +38,7 @@ namespace Ryder.Application.Rider.Query.RidersEarnings
             //Calculate the total ride duration
             var totalRideDuration = TimeSpan.FromHours(_context.Orders.Where(x => x.Status == OrderStatus.Delivered).Sum(x => (x.EndTime - x.StartTime).TotalHours));
 
-            var rides = _context.Orders.Where(x => x.Status == OrderStatus.Delivered).Include(y => y.Amount).Include(z => z.CreatedAt).OrderByDescending(i => i.CreatedAt).ToList();
+            var rides = _context.Orders.Where(x => x.Status == OrderStatus.Delivered).OrderByDescending(i => i.CreatedAt).ToList();
 
             // An object with the calculated values
             var response = new RiderEarningsResponse
