@@ -14,16 +14,16 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IDocumentUploadService, DocumentUploadService>();
-builder.Services.AddSingleton<NotificationHub>();
+builder.Services.AddTransient<NotificationHub>();
 builder.Services.AddSignalR();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowCrossOrigin", builder =>
     {
         builder.AllowAnyMethod()
-               .AllowAnyMethod()
-               .AllowAnyHeader()
-               .AllowCredentials();
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();
     });
 });
 
@@ -61,11 +61,12 @@ var app = builder.Build();
 
 app.UseCors("AllowAllOrigins");
 
-app.UseRouting();   
+app.UseRouting();
 
 app.UseAuthorization();
 
-app.ConfigureSignalR();
+//app.ConfigureSignalR();
+app.MapHub<NotificationHub>("/notificationsHub");
 // Configure the HTTP request pipeline.
 
 app.UseSwagger();
