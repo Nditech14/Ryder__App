@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace Ryder.Application.Common.Hubs
 {
-    [Authorize]
     public class NotificationHub : Hub
     {
         public async Task NotifyRidersOfIncomingRequest(List<string> riderId)

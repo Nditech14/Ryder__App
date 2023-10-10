@@ -48,13 +48,14 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnC
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAllOrigins",
-        builder =>
-        {
-            builder.AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
+    options.AddPolicy("AllowAllOrigins", builder =>
+    {
+        builder.WithOrigins("https://ryder-frontend.vercel.app", "https://ryder.decagon.dev",
+                "http://localhost:3000")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
 });
 
 var app = builder.Build();
@@ -79,7 +80,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.UseCors("AllowCrossOrigin");
+app.UseCors("AllowAllOrigins");
+
 app.MapControllers();
 
 
