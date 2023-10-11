@@ -31,6 +31,7 @@ namespace Ryder.Application.Authentication.Command.Registration.RiderRegistratio
             //Perform logic for sign up as a Rider
             var user = await _userManager.FindByEmailAsync(request.Email);
             if (user != null) return Result.Fail("Rider exist");
+            
             user = new Domain.Entities.AppUser()
             {
                 Id = Guid.NewGuid(),
@@ -38,7 +39,15 @@ namespace Ryder.Application.Authentication.Command.Registration.RiderRegistratio
                 LastName = request.LastName,
                 Email = request.Email,
                 PhoneNumber = request.PhoneNumber,
-                UserName = request.Email
+                UserName = request.Email,
+                Address = new Address
+                {
+                    City = request.City,
+                    State = request.State,
+                    Country = request.Country,
+                    Longitude = request.Longitude,
+                    Latitude = request.Latitude
+                }
             };
 
             var validIdUpload = await _uploadService.DocumentUploadAsync(request.ValidIdUrl);
