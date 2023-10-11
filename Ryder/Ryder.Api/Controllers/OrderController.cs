@@ -26,9 +26,9 @@ namespace Ryder.Api.Controllers
 
         
         [HttpPost("placeOrder")]
-        public async Task<IActionResult> PlaceOrder([FromBody] PlaceOrderCommand placeOrder)
+        public async Task<IActionResult> PlaceOrder([FromBody] PlaceOrderCommand command)
         {
-            return await Initiate(() => Mediator.Send(placeOrder));
+            return await Initiate(() => Mediator.Send(command));
         }
 
         
