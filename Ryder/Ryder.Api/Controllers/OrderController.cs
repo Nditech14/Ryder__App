@@ -8,7 +8,6 @@ using Ryder.Application.Order.Query.GetOderById;
 using Ryder.Application.Order.Query.OrderProgress;
 using MediatR;
 using AspNetCoreHero.Results;
-using Ryder.Application.Order.Query.OrderProgress;
 
 namespace Ryder.Api.Controllers
 {
