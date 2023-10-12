@@ -31,6 +31,7 @@ builder.Services.ApplicationDependencyInjection();
 builder.Services.InjectInfrastructure(builder.Configuration);
 builder.Services.SetupSeriLog(builder.Configuration);
 builder.Services.ConfigureCloudinary(builder.Configuration);
+builder.Services.ConfigurePaystack(builder.Configuration);
 
 // Add configuration settings from appsettings.json
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
