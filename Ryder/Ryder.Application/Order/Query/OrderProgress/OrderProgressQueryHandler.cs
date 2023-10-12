@@ -41,6 +41,9 @@ namespace Ryder.Application.Order.Query.OrderProgress
                     var response = new OrderProgressResponse
                     {
                         Status = EnumHelper.GetEnumDescription(order.Status),
+                        OrderId = order.Id, // Get the OrderId from the database
+                        RiderId = order.RiderId,
+
                     };
                     // Return a successful result with the response data.
                     return Result<OrderProgressResponse>.Success(response);

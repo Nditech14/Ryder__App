@@ -45,7 +45,7 @@ namespace Ryder.Api.Controllers
         {
             return await Initiate(() => Mediator.Send(new GetAllOrderQuery { AppUserId = appUserId}));
         }
-        
+        [AllowAnonymous]
         [HttpPost("progress")]
         public async Task<IActionResult> RequestProgress([FromBody] OrderProgressQuery query)
         {

@@ -12,6 +12,8 @@ namespace Ryder.Application.Order.Query.OrderProgress
     public class OrderProgressResponse
     {  
         public string Status { get; set; }
+        public Guid OrderId { get; set; }
+        public Guid RiderId { get; set; }
 
     }
 }
