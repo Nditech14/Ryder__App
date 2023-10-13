@@ -36,7 +36,7 @@ public class RiderController : ApiController
         return await Initiate(() => Mediator.Send(new RiderEarningsQuery { RiderId = id }));
     }
 
-    [AllowAnonymous]
+    
     [HttpGet("get-all-riders")]
     public async Task<IActionResult> GetAllRiders()
     {
