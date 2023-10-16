@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Ryder.Domain.Context;
 using Ryder.Domain.Entities;
+using Ryder.Domain.Enums;
 using Ryder.Infrastructure.Interface;
 using Ryder.Infrastructure.Policy;
 using Ryder.Infrastructure.Utility;
@@ -44,9 +45,13 @@ namespace Ryder.Application.Authentication.Command.Registration.RiderRegistratio
                 {
                     City = request.City,
                     State = request.State,
+                    PostCode = request.PostCode,
                     Country = request.Country,
                     Longitude = request.Longitude,
-                    Latitude = request.Latitude
+                    Latitude = request.Latitude,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow,
+                    IsDeleted = false
                 }
             };
 
@@ -62,6 +67,10 @@ namespace Ryder.Application.Authentication.Command.Registration.RiderRegistratio
                 ValidIdUrl = validIdUpload.SecureUrl.ToString(),
                 PassportPhoto = passportPhotoUpload.SecureUrl.ToString(),
                 BikeDocument = bikeDocumentUpload.SecureUrl.ToString(),
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                IsDeleted = false,
+                AvailabilityStatus = RiderAvailabilityStatus.Unavailable,
                 AppUserId = user.Id
             };
 
