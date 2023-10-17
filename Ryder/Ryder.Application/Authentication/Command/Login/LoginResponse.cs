@@ -13,7 +13,7 @@ namespace Ryder.Application.Authentication.Command.Login
 		public string FullName { get; set; } // User's full name
 		public string Token { get; set; } // Authentication token (JWT) for subsequent requests
 		public string UserRole { get; set; } // User's role
-        public Guid RiderId { get; set; }
+        public Guid RiderId { get; set; } // Rider Id
 
     }
 
