@@ -16,17 +16,16 @@ namespace Ryder.Application.Order.Command.EndRide
     {
         private readonly ApplicationContext _context;
         private readonly ILogger<EndRideCommandHandler> _logger; // Inject the logger.
+        private readonly NotificationHub _notificationHub;
 
-        public EndRideCommandHandler(ApplicationContext context, ILogger<EndRideCommandHandler> logger)
-        {
-            _context = context;
-            _logger = logger;
-      
-            // Log an information message when the handler is initialized.
-            _logger.LogInformation("EndRideCommandHandler initialized.");
-        }
+		public EndRideCommandHandler(ApplicationContext context, ILogger<EndRideCommandHandler> logger, NotificationHub notificationHub)
+		{
+			_context = context;
+			_logger = logger;
+			_notificationHub = notificationHub;
+		}
 
-        public async Task<IResult<EndRideResponse>> Handle(EndRideCommand request, CancellationToken cancellationToken)
+		public async Task<IResult<EndRideResponse>> Handle(EndRideCommand request, CancellationToken cancellationToken)
         {
             // Retrieve the order by its unique identifier (orderId) from the context
             var order = await _context.Orders.FirstOrDefaultAsync(o => o.Id == request.OrderId);
@@ -53,6 +52,10 @@ namespace Ryder.Application.Order.Command.EndRide
 
             // Log an information message when the order is successfully updated.
             _logger.LogInformation($"Order with ID {request.OrderId} updated successfully.");
+
+           
+
+            await  _notificationHub.NotifyUserAndRiderOfOrderCompleted(order.AppUserId.ToString(), order.RiderId.ToString());
 
 
 			// Handle the successful update and return response
