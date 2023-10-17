@@ -23,5 +23,22 @@ namespace Ryder.Api.Controllers
         {
             return new BadRequestResult();
         }
+
+        [HttpGet("logs")]
+        public IActionResult Logs()
+        {
+            var aaa = $"/temp/nlog-all-{DateTime.Now:yyyy-MM-dd}";
+            //var rrr = "\"C:\\temp\\nlog-all-2023-10-17.log\"";
+            var text = System.IO.File.ReadAllText($"/temp/nlog-all-{DateTime.Now:yyyy-MM-dd}.log");
+            return Content(text, "text/plain");
+        }
+
+        [HttpPut("clearlogs")]
+        public IActionResult ClearLogs()
+        {
+            System.IO.File.WriteAllText($"/temp/nlog-all-{DateTime.Now:yyyy-MM-dd}.log",
+                string.Empty);
+            return Ok("Success");
+        }
     }
 }
