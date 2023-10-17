@@ -44,8 +44,8 @@ namespace Ryder.Application.Order.Command.EndRide
 
             // Update the order details
             order.Status = OrderStatus.Delivered;
+            order.EndTime = DateTime.UtcNow;
 
-           
             _context.Update(order);
 
             await _context.SaveChangesAsync();
@@ -64,8 +64,7 @@ namespace Ryder.Application.Order.Command.EndRide
                 OrderId = order.Id,
                 RiderId = order.RiderId,
                 Status= OrderStatus.Delivered,
-              
-
+                UpdateAt = DateTime.UtcNow,
             });
         }
     }

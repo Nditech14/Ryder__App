@@ -67,7 +67,10 @@ namespace Ryder.Application.Order.Command.PlaceOrder
                     Amount = request.Amount,
                     RiderId = Guid.Empty,
                     AppUserId = currentUser.Id,
-                    Status = OrderStatus.OrderPlaced
+                    Status = OrderStatus.OrderPlaced,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow,
+
                 };
 
 
