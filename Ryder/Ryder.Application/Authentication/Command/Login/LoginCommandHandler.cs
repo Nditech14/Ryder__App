@@ -12,6 +12,12 @@ using System.Threading.Tasks;
 
 namespace Ryder.Application.Authentication.Command.Login
 {
+    public class LoginCommandHandler : IRequestHandler<LoginCommand, IResult<LoginResponse>>
+    {
+        private readonly IUserService _userService;
+        private readonly ITokenGeneratorService _tokenService;
+        private readonly IConfiguration _configuration;
+        private readonly UserManager<AppUser> _userManager;
 	public class LoginCommandHandler : IRequestHandler<LoginCommand, IResult<LoginResponse>>
 	{
 		private readonly IUserService _userService;
@@ -20,6 +26,14 @@ namespace Ryder.Application.Authentication.Command.Login
 		private readonly UserManager<AppUser> _userManager;
 		private readonly ApplicationContext _context;
 
+        public LoginCommandHandler(IUserService userService, ITokenGeneratorService tokenService,
+            IConfiguration configuration, UserManager<AppUser> userManager)
+        {
+            _userService = userService;
+            _tokenService = tokenService;
+            _configuration = configuration;
+            _userManager = userManager;
+        }
 		public LoginCommandHandler(IUserService userService, ITokenGeneratorService tokenService, IConfiguration configuration, UserManager<AppUser> userManager, ApplicationContext context)
 		{
 			_userService = userService;
@@ -29,20 +43,37 @@ namespace Ryder.Application.Authentication.Command.Login
 			_context = context;
 		}
 
+        public async Task<IResult<LoginResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
+        {
+            // Validate user credentials
+            var user = await _userService.ValidateUserAsync(request.Email, request.Password);
 
 		public async Task<IResult<LoginResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
 		{
 			// Validate user credentials
 			var user = await _userService.ValidateUserAsync(request.Email, request.Password);
 
-			if (user == null)
-			{
-				return Result<LoginResponse>.Fail("Invalid username or password");
-			}
+            if (user == null)
+            {
+                return Result<LoginResponse>.Fail("Invalid username or password");
+            }
 
+            // Generate token
+            var token = await _tokenService.GenerateTokenAsync(user);
+
+            // Get the user's roles
+            var userRoles = await _userManager.GetRolesAsync(user);
 			// Get the user's roles
 			var userRoles = await _userManager.GetRolesAsync(user);
 
+            var response = new LoginResponse
+            {
+                Token = token,
+                UserId = user.Id,
+                UserName = user.UserName,
+                FullName = $"{user.FirstName} {user.LastName}",
+                UserRole = userRoles.FirstOrDefault()
+            };
 			var query = from rider in _context.Riders
 						join
 						appUser in _context.Users on
@@ -68,6 +99,10 @@ namespace Ryder.Application.Authentication.Command.Login
 
 			};
 
+            return Result<LoginResponse>.Success(response);
+        }
+    }
+}
 			return Result<LoginResponse>.Success(response);
 		}
 

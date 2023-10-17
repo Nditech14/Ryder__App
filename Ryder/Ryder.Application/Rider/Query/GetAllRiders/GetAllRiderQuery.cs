@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ryder.Application.Authentication.Command.Logout
+namespace Ryder.Application.Rider.Query.GetAllRiders
 {
-	public class LogoutCommand : IRequest<IResult<string>>
-	{
-	}
+    public class GetAllRiderQuery: IRequest<IResult<List<GetAllRiderResponse>>>
+    {
+    }
 }
