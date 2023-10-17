@@ -51,9 +51,8 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins", builder =>
     {
-        //builder.WithOrigins("https://ryder-frontend.vercel.app", "https://ryder.decagon.dev",
-        //  "http://localhost:3000")
-        builder.AllowAnyOrigin()
+        builder.WithOrigins("https://ryder-frontend.vercel.app", "https://ryder.decagon.dev",
+                "http://localhost:3000")
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
