@@ -80,7 +80,7 @@ namespace Ryder.Application.Order.Command.PlaceOrder
                     return Result<Guid>.Fail("No available rider to fufil your order!");
                 }
 
-                await _notificationHub.Clients.All.SendAsync("IncomingRequest",
+                await _notificationHub.Clients.All.SendAsync("IncomingRequest", getAllAvailableRiders,
                     "You have an incoming request.", cancellationToken: cancellationToken);
 
                 await _context.Orders.AddAsync(order, cancellationToken);

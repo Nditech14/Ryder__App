@@ -41,6 +41,7 @@ builder.Services.ApplicationDependencyInjection();
 builder.Services.InjectInfrastructure(builder.Configuration);
 builder.Services.SetupSeriLog(builder.Configuration);
 builder.Services.ConfigureCloudinary(builder.Configuration);
+builder.Services.AddHttpClient();
 
 // Add configuration settings from appsettings.json
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -50,8 +51,9 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins", builder =>
     {
-        builder.WithOrigins("https://ryder-frontend.vercel.app", "https://ryder.decagon.dev",
-                "http://localhost:3000")
+        //builder.WithOrigins("https://ryder-frontend.vercel.app", "https://ryder.decagon.dev",
+        //  "http://localhost:3000")
+        builder.AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
