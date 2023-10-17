@@ -27,9 +27,10 @@ namespace Ryder.Api.Controllers
         [HttpGet("logs")]
         public IActionResult Logs()
         {
-            var aaa = $"/temp/nlog-all-{DateTime.Now:yyyy-MM-dd}";
-            //var rrr = "\"C:\\temp\\nlog-all-2023-10-17.log\"";
-            var text = System.IO.File.ReadAllText($"/temp/nlog-all-{DateTime.Now:yyyy-MM-dd}.log");
+            string executablePath =
+                System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+
+            var text = System.IO.File.ReadAllText($"{executablePath}/temp/nlog-all-{DateTime.Now:yyyy-MM-dd}.log");
             return Content(text, "text/plain");
         }
 
