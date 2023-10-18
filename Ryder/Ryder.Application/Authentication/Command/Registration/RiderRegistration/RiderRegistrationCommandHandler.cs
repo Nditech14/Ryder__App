@@ -1,12 +1,14 @@
 ﻿using AspNetCoreHero.Results;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Ryder.Domain.Context;
 using Ryder.Domain.Entities;
 using Ryder.Domain.Enums;
 using Ryder.Infrastructure.Interface;
 using Ryder.Infrastructure.Policy;
 using Ryder.Infrastructure.Utility;
+using System.Net;
 using System.Transactions;
 
 namespace Ryder.Application.Authentication.Command.Registration.RiderRegistration
@@ -17,14 +19,16 @@ namespace Ryder.Application.Authentication.Command.Registration.RiderRegistratio
         private readonly UserManager<AppUser> _userManager;
         private readonly ISmtpEmailService _emailService;
         private readonly IDocumentUploadService _uploadService;
+        private readonly IConfiguration _configuration;
 
         public RiderRegistrationCommandHandler(ApplicationContext context, UserManager<AppUser> userManager,
-            ISmtpEmailService emailService, IDocumentUploadService uploadService)
+            ISmtpEmailService emailService, IDocumentUploadService uploadService, IConfiguration configuration)
         {
             _context = context;
             _userManager = userManager;
             _emailService = emailService;
             _uploadService = uploadService;
+            _configuration = configuration;
         }
 
         public async Task<IResult> Handle(RiderRegistrationCommand request,  CancellationToken cancellationToken)
@@ -83,17 +87,18 @@ namespace Ryder.Application.Authentication.Command.Registration.RiderRegistratio
                 if (!CreateRole.Succeeded) return Result.Fail();
                 await _context.Riders.AddAsync(riderDocumentation, cancellationToken);
 
-                //Send Confirmation mail
-                var token = new Random().Next(100000, 999999).ToString();
+                //Sending Email token to verify the users email.
+                var verifyEmailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var appUrl = _configuration["AppUrl"];
+                var resetLink = $"{appUrl}/confirmation?token={WebUtility.UrlEncode(verifyEmailToken)}&email={WebUtility.UrlEncode(request.Email)}";
 
-                //TODO:Change this to an email template
-                var emailBody =
-                    $"Your confirmation code is {token}. Please enter this code on our website to confirm your email address. This code will expire in 10 minutes.";
-                var sent = await _emailService.SendEmailAsync(user.Email, "Confirm Email", emailBody);
+                var emailSubject = "Verify Email";
+                var emailMessage = $"Click the link below to Verify your email:\n{resetLink}";
 
-                if (!sent)
+                var emailSent = await _emailService.SendEmailAsync(request.Email, emailSubject, emailMessage);
+
+                if (!emailSent)
                     return await Result.FailAsync("Error sending email");
-
 
                 await _context.SaveChangesAsync(cancellationToken);
                 transaction.Complete();
