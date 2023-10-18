@@ -24,7 +24,7 @@ namespace Ryder.Application.Authentication.Command.ConfirmEmail
             user.EmailConfirmed = true;
 
             await _userManager.UpdateAsync(user);
-            return await Result.SuccessAsync($"{user.Email} successfully confirmed");
+            return await Result.SuccessAsync("You Email has been confirmed");
         }
     }
 }
