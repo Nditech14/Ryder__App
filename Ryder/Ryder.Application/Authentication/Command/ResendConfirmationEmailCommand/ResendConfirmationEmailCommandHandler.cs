@@ -35,7 +35,7 @@ namespace Ryder.Application.Authentication.Command.ResendConfirmationEmailComman
 
                 var verifyEmailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var appUrl = _configuration["AppUrl"];
-                var resetLink = $"{appUrl}/SendConfirmEmail?token={WebUtility.UrlEncode(verifyEmailToken)}&email={WebUtility.UrlEncode(request.Email)}";
+                var resetLink = $"{appUrl}/confirmation?token={WebUtility.UrlEncode(verifyEmailToken)}&email={WebUtility.UrlEncode(request.Email)}";
 
                 var emailSubject = "Verify Email";
                 var emailMessage = $"Click the link below to Verify your email:\n{resetLink}";

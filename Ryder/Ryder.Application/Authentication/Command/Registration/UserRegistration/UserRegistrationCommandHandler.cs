@@ -32,7 +32,7 @@ namespace Ryder.Application.Authentication.Command.Registration.UserRegistration
         {
             //Perform logic for sign up as a User
             var user = await _userManager.FindByEmailAsync(request.Email);
-            if (user != null) return Result.Fail("User exist");
+            if (user != null) return Result.Fail("A User with this Email exist.");
             user = new AppUser()
             {
                 FirstName = request.FirstName,
@@ -68,7 +68,7 @@ namespace Ryder.Application.Authentication.Command.Registration.UserRegistration
                 await _context.SaveChangesAsync(cancellationToken);
                 transaction.Complete();
 
-                return Result.Success("Signup successful");
+                return Result.Success("Signup successful.");
             }
         }
     }
