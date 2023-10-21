@@ -24,7 +24,7 @@ namespace Ryder.Application.Authentication.Command.ConfirmEmail
 
             if (request.Email == null || request.Token == null)
             {
-                return await Result.FailAsync("Invalid Input");
+                return await Result.FailAsync("Invalid Data Input");
             }
 
             var user = await _userManager.FindByEmailAsync(request.Email);
@@ -39,7 +39,7 @@ namespace Ryder.Application.Authentication.Command.ConfirmEmail
                 user.EmailConfirmed = true;
                 _context.Update(user);
                 _context.SaveChanges();
-                return await Result.SuccessAsync("You Email has been confirmed");
+                return await Result.SuccessAsync("Your Email has been confirmed");
             }
             else
             {
