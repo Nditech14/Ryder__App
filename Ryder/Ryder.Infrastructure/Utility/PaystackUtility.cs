@@ -2,7 +2,7 @@
 {
     public static class PaystackUtility
     {
-        public static string GenerateUniqueReference(string prefix = "PAYSTACK", int length = 12)
+        public static string GenerateUniqueReference(string prefix = "RYDER", int length = 15)
         {
             if (prefix.Length > length)
             {

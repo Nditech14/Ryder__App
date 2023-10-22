@@ -1,6 +1,4 @@
 ﻿using Ryder.Infrastructure.Interface;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
 using PayStack.Net;
 using Ryder.Infrastructure.Common.Extensions;
 using Ryder.Infrastructure.Implementation;
@@ -15,14 +13,23 @@ namespace Ryder.Api.Configurations
             configuration.GetSection("Paystack").Bind(paystackSettings);
             services.AddSingleton(paystackSettings);
 
-            string paystackSecretKey = paystackSettings.LiveSecretKey;
+            string paystackSecretKey = paystackSettings.TestSecretKey;
 
-            
-            services.AddScoped<IPaystackService>(provider =>
+
+            //services.AddSingleton<IPaystackService>(provider =>
+            //{
+            //    var paystack = new PayStackApi(paystackSecretKey);
+            //    return new PaystackService(paystack);
+            //});
+
+
+            // Register IPayStackApi with its implementation PayStackApi
+            services.AddSingleton<IPayStackApi>(provider =>
             {
-                var paystack = new PayStackApi(paystackSecretKey);
-                return new PaystackService(paystack);
+                return new PayStackApi(paystackSecretKey);
             });
+
+            services.AddSingleton<IPaystackService, PaystackService>();
         }
     }
 }
