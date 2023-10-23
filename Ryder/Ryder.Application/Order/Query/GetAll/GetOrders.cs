@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ryder.Application.Order.Query.GetAll
 {
-    public class GetOrders : IRequest<IResult<GetOrdersResponse>>
+    public class GetOrders : IRequest<IResult<List<GetOrdersResponse>>>
     {
         public DateTime Created { get; set; } = new DateTime(2023, 10, 22);
     }

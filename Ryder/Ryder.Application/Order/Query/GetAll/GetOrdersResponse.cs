@@ -9,6 +9,7 @@ namespace Ryder.Application.Order.Query.GetAll
         public string DropOffLocationAddressDescription { get; set; }
         public string PackageDescription { get; set; }
         public decimal Amount { get; set; }
+        public string Email { get; set; }
         public OrderStatus Status { get; set; }
     }
 }
