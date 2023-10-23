@@ -10,6 +10,7 @@ using MediatR;
 using AspNetCoreHero.Results;
 using Ryder.Domain.Context;
 using Ryder.Application.Order.Query.GetAllOrderStatus;
+using Ryder.Application.Order.Query.GetAll;
 
 namespace Ryder.Api.Controllers
 {
@@ -38,13 +39,20 @@ namespace Ryder.Api.Controllers
             return await Initiate(() => Mediator.Send(command));
         }
 
-      
+        [AllowAnonymous]
         [HttpGet("getAllOrder")]
         public async Task<IActionResult> GetAllOrder([FromQuery] Guid appUserId)
         {
             return await Initiate(() => Mediator.Send(new GetAllOrderQuery { AppUserId = appUserId}));
         }
-        
+
+        [AllowAnonymous]
+        [HttpGet("filter")]
+        public async Task<IActionResult> GetFilteredOrders()
+        {
+            _logger.LogInformation("Filtered Order action invoked");
+            return await Initiate(() => Mediator.Send(new GetOrders()));
+        }
 
         [HttpGet("progress")]
         public async Task<IActionResult> RequestProgress([FromBody] GetAllOrderProgressQuery query)
