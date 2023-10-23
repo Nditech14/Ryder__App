@@ -12,6 +12,7 @@ using Ryder.Domain.Context;
 using Ryder.Application.Order.Query.GetAllOrderStatus;
 using Ryder.Application.Rider.Query.GetRiderAvailability;
 using Ryder.Application.Order.Query.GetAll;
+using Ryder.Domain.Entities;
 
 namespace Ryder.Api.Controllers
 {
@@ -40,20 +41,13 @@ namespace Ryder.Api.Controllers
             return await Initiate(() => Mediator.Send(command));
         }
 
-        
+
         [HttpGet("getAllOrder")]
         public async Task<IActionResult> GetAllOrder([FromQuery] Guid appUserId)
         {
             return await Initiate(() => Mediator.Send(new GetAllOrderQuery { AppUserId = appUserId }));
         }
 
-        [AllowAnonymous]
-        [HttpGet("filter")]
-        public async Task<IActionResult> GetFilteredOrders()
-        {
-            _logger.LogInformation("Filtered Order action invoked");
-            return await Initiate(() => Mediator.Send(new GetOrders()));
-        }
 
         [HttpGet("progress")]
         public async Task<IActionResult> RequestProgress([FromBody] GetAllOrderProgressQuery query)
@@ -62,23 +56,23 @@ namespace Ryder.Api.Controllers
             return await Initiate(() => Mediator.Send(query));
         }
 
-        
+
         [HttpGet("allOrderProgress/{id}")]
         public async Task<IActionResult> AllOrderProgress(Guid id)
         {
-            return await Initiate(() => Mediator.Send(new GetAllOrderStatusQuery  {AppUserId = id }));
+            return await Initiate(() => Mediator.Send(new GetAllOrderStatusQuery { AppUserId = id }));
         }
 
 
 
-        
+
         [HttpGet("{appUserId}/{orderId}")]
         public async Task<IActionResult> GetOrderById(Guid appUserId, Guid orderId)
         {
-            return await Initiate(() => Mediator.Send(new GetOrderByIdQuery { AppUserId = appUserId, OrderId = orderId}));
+            return await Initiate(() => Mediator.Send(new GetOrderByIdQuery { AppUserId = appUserId, OrderId = orderId }));
         }
 
-        
+
         [HttpPost("end")]
         public async Task<IActionResult> EndRide([FromBody] EndRideCommand command)
         {
@@ -86,12 +80,20 @@ namespace Ryder.Api.Controllers
             return await Initiate(() => Mediator.Send(command));
         }
 
-        
+
         [HttpPost("decline")]
         public async Task<IActionResult> DeclineOrder([FromBody] DeclineOrderCommand command)
         {
             _logger.LogInformation("DeclineOrder action invoked.");
             return await Initiate(() => Mediator.Send(command));
+        }
+
+        [AllowAnonymous]
+        [HttpGet("filter")]
+        public async Task<IActionResult> GetFilteredOrders()
+        {
+            _logger.LogInformation("Filtered Order action invoked");
+            return await Initiate(() => Mediator.Send(new GetAllQuery()));
         }
     }
 }
