@@ -17,6 +17,7 @@ namespace Ryder.Application.Rider.Query.AllRiderHistory
         public OrderStatus Status { get; set; }
         public decimal Amount { get; set; }
         public Guid RiderId { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 
     public class Location
