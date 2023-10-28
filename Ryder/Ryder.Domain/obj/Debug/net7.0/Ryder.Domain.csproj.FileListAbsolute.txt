@@ -1,0 +1,14 @@
+C:\Users\Decagon L\OneDrive\Desktop\backend Ryder\Ryder\Ryder.Domain\bin\Debug\net7.0\Ryder.Domain.deps.json
+C:\Users\Decagon L\OneDrive\Desktop\backend Ryder\Ryder\Ryder.Domain\bin\Debug\net7.0\Ryder.Domain.runtimeconfig.json
+C:\Users\Decagon L\OneDrive\Desktop\backend Ryder\Ryder\Ryder.Domain\bin\Debug\net7.0\Ryder.Domain.dll
+C:\Users\Decagon L\OneDrive\Desktop\backend Ryder\Ryder\Ryder.Domain\bin\Debug\net7.0\Ryder.Domain.pdb
+C:\Users\Decagon L\OneDrive\Desktop\backend Ryder\Ryder\Ryder.Domain\obj\Debug\net7.0\Ryder.Domain.csproj.AssemblyReference.cache
+C:\Users\Decagon L\OneDrive\Desktop\backend Ryder\Ryder\Ryder.Domain\obj\Debug\net7.0\Ryder.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Decagon L\OneDrive\Desktop\backend Ryder\Ryder\Ryder.Domain\obj\Debug\net7.0\Ryder.Domain.AssemblyInfoInputs.cache
+C:\Users\Decagon L\OneDrive\Desktop\backend Ryder\Ryder\Ryder.Domain\obj\Debug\net7.0\Ryder.Domain.AssemblyInfo.cs
+C:\Users\Decagon L\OneDrive\Desktop\backend Ryder\Ryder\Ryder.Domain\obj\Debug\net7.0\Ryder.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Decagon L\OneDrive\Desktop\backend Ryder\Ryder\Ryder.Domain\obj\Debug\net7.0\Ryder.Domain.dll
+C:\Users\Decagon L\OneDrive\Desktop\backend Ryder\Ryder\Ryder.Domain\obj\Debug\net7.0\refint\Ryder.Domain.dll
+C:\Users\Decagon L\OneDrive\Desktop\backend Ryder\Ryder\Ryder.Domain\obj\Debug\net7.0\Ryder.Domain.pdb
+C:\Users\Decagon L\OneDrive\Desktop\backend Ryder\Ryder\Ryder.Domain\obj\Debug\net7.0\Ryder.Domain.genruntimeconfig.cache
+C:\Users\Decagon L\OneDrive\Desktop\backend Ryder\Ryder\Ryder.Domain\obj\Debug\net7.0\ref\Ryder.Domain.dll
